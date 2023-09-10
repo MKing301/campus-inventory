@@ -18,7 +18,7 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("profile/edit/", views.edit_profile, name="edit_profile"),
     path(
-        "profile/password/",
+        "<int:id>/password/",
         PasswordsChangeView.as_view(
             template_name='accounts/password_change.html'
         )
