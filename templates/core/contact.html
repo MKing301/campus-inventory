@@ -1,0 +1,40 @@
+{% extends 'core/layout.html' %}
+{% block title %} Contact {% endblock %}
+{% load static %}
+{% block body %}
+{% load widget_tweaks %}
+<div class="page-content">
+    <legend class="border-bottom mb-4">
+        Contact Us
+    </legend>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" class="form-control" name="fullname" required=true>
+            <div>
+            <div class="form-group">
+                <label for="contact_email">Email</label>
+                <input type="text" class="form-control" name="contact_email" required=true>
+            </div>
+            <div class="form-group">
+                <label for="contact_subject">Subject</label>
+                <input type="text" class="form-control" name="contact_subject" required=true>
+            </div>
+            <div class="form-group">
+                <label for="contact_message">Message</label>
+                <textarea class="form-control" name="contact_message" row="3" required=true></textarea>
+            </div>
+            <br />
+              <div class="form-group">
+                {% render_field form.captcha%}
+              </div>
+            <br />
+            <div class="form-group">
+                <button id="contact" class="btn btn-sm btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+  </div>
+{% endblock %}

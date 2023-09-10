@@ -1,0 +1,41 @@
+{% if form.errors %}
+    <ul class="errorlist">
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>
+                    {{ field.label }}:  {{ error|escape }}
+                </li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if form.non_field_errors %}
+    <ul class="errorlist">
+        {% for err in form.non_field_errors %}
+            <li>
+              {{ err }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if form.old_password.errors %}
+    <ul class="errorlist">
+        {% for oldpass_err in form.old_password.errors %}
+              <li>
+                  {{ oldpass_err }}
+              </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if form.new_password2.errors %}
+    <ul class="errorlist">
+        {% for newpass_err in form.new_password2.errors %}
+            <li>
+                {{ newpass_err }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

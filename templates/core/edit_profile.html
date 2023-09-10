@@ -1,0 +1,23 @@
+{% extends 'core/layout.html' %}
+{% block title %} Edit Profile {% endblock %}
+{% block body %}
+<div class="page-content">
+  <div class="container-fluid">
+    <legend class="border-bottom mb-4">
+       Edit Profile
+    </legend>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-sm btn-primary" type="submit">Update</button>
+        <button
+          onclick="javascript:history.back();"
+          class="btn btn-secondary btn-sm"
+          type="submit"
+        >
+          Cancel
+        </button>
+    </form>
+  </div>
+  </div>
+{% endblock %}
