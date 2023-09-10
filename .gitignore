@@ -93,3 +93,6 @@ env/
 
 # VS Code
 .vscode/
+
+# Misc
+notes.txt
