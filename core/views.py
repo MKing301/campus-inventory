@@ -271,7 +271,7 @@ def edit_profile(request):
                 request,
                 "Your profile was updated successfully."
             )
-            return redirect('core:view_profile')
+            return redirect('core:edit_profile')
 
     else:
         form = EditProfileForm(instance=request.user)
