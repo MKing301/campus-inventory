@@ -33,3 +33,13 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.fullname
+
+
+class MapLocation(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Map_Locations"
+
+    def __str__(self):
+        return self.name
