@@ -185,7 +185,7 @@ def register(request):
                     f"Email sent to Admin to activate your account."
                 )
                 # END USER ACTIVE SET TO FALSE BY DEFAULT
-                return redirect("core:entry")
+                return redirect("core:index")
             else:
                 return render(
                     request=request,
