@@ -72,9 +72,9 @@ def index(request):
                   )
 
 
-def entry(request):
+def inventory(request):
     return render(request=request,
-                  template_name="core/entry.html"
+                  template_name="core/inventory.html"
                   )
 
 

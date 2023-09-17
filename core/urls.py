@@ -12,7 +12,7 @@ app_name = "core"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("core/entry", views.entry, name="entry"),
+    path("core/inventory", views.inventory, name="inventory"),
     path("accounts/logout/", views.logout_request, name="logout_request"),
     path("accounts/login/", views.login_request, name="login_request"),
     path("register/", views.register, name="register"),
