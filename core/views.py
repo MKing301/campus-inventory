@@ -92,7 +92,7 @@ def login_request(request):
                     request,
                     f'{username} logged in successfully.'
                 )
-                return redirect("core:entry")
+                return redirect("core:inventory")
 
             elif User.objects.filter(
                     username=form.cleaned_data.get('username')).exists():
