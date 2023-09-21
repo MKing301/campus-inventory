@@ -35,12 +35,20 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'core/css/core_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/core_styles.css' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+
+    <!-- ColVis -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
 
   <title>
     {% block title %} Home {% endblock %}
@@ -56,7 +64,6 @@
       {% include "core/includes/_form_errors.html" %} <!-- Form Errors -->
       {% block body %}
       {% endblock %}
-      {% include "core/includes/_footer.html" %} <!-- Footer -->
     </div>
     <!-- End container class-->
 
