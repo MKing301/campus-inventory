@@ -57,3 +57,13 @@ class Area(models.Model):
 
     def __str__(self):
         return self.map_loc.name + ' - ' + self.name
+
+
+class Manufacturer(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Manufacturers"
+
+    def __str__(self):
+        return self.name
