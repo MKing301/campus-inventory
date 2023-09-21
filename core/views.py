@@ -1,4 +1,5 @@
 import os
+import csv
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -81,6 +82,60 @@ def inventory(request):
                       'inventory_list': inventory_list
                   }
                   )
+
+
+@login_required
+def export_to_excel(request):
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="inventory.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            'ID',
+            'Item',
+            'Description',
+            'Model #',
+            'Serial #',
+            'Qty',
+            'Total Cost',
+            'Assigned To',
+            'Approval Date',
+            'Purchase Date',
+            'Inserted By',
+            'Inserted Date',
+            'Modified By',
+            'Modified Date',
+            'Approved By',
+            'Location',
+            'Mfg'
+        ]
+    )
+
+    items = InventoryItem.objects.all().values_list(
+        'id',
+        'name',
+        'description',
+        'model_no',
+        'serial_no',
+        'qty',
+        'total_cost',
+        'assigned_to',
+        'approved_date',
+        'purchase_date',
+        'inserted_by',
+        'inserted_date',
+        'modified_by',
+        'modified_date',
+        'approved_by_id__name',
+        'location_id__name',
+        'mfg_id__name'
+    )
+
+    for item in items:
+        writer.writerow(item)
+    return response
 
 
 def login_request(request):
