@@ -79,6 +79,16 @@ class ApprovalList(models.Model):
         return self.name
 
 
+class Assignee(models.Model):
+    name = models.CharField(max_length=250)
+
+    class Meta:
+        verbose_name_plural = "Assignees"
+
+    def __str__(self):
+        return self.name
+
+
 class InventoryItem(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=250)
@@ -96,14 +106,22 @@ class InventoryItem(models.Model):
     total_cost = models.DecimalField(
         max_digits=8, decimal_places=2, blank=True, null=True
     )
-    assigned_to = models.CharField(max_length=150, blank=True, null=True)
+    assigned_to = models.ForeignKey(
+        Assignee,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
     approved_by = models.ForeignKey(
         ApprovalList,
         on_delete=models.CASCADE
     )
     approved_date = models.DateField()
     purchase_date = models.DateField()
-    inserted_by = models.CharField(max_length=150)
+    inserted_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
     inserted_date = models.DateField()
     modified_by = models.CharField(max_length=150, blank=True, null=True)
     modified_date = models.DateField(blank=True, null=True)
