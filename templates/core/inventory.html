@@ -5,7 +5,7 @@
 <div class="page-content">
   <div class="container-fluid">
     <h1>Inventory</h1>
-    <table class="table table-sm table-hover table-responsive-sm table-bordered" width="100%">
+    <table id="inventoryTable" class="table table-sm table-hover table-responsive-sm table-bordered" width="100%">
       <thead class="table-primary">
       <tr>
         <th class="fit">ID</th>
@@ -59,4 +59,34 @@
     </table>
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+      $('#inventoryTable').DataTable( {
+          dom: 'Bfrtip',
+          columnDefs: [
+              {
+                  targets: 0,
+                  className: 'noVis'
+              },
+              {
+                  "targets": [6,7,9],
+                  "visible": false
+
+              }
+          ],
+          buttons: [
+              'pageLength',
+              {
+                  extend: 'colvis',
+                  columns: ':not(.noVis)'
+              }
+          ],
+          orderCellsTop: true,
+        initComplete: function() {
+          var table = this.api();
+
+        }
+      } );
+  } );
+</script>
 {% endblock %}
