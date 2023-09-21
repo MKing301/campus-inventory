@@ -5,6 +5,58 @@
 <div class="page-content">
   <div class="container-fluid">
     <h1>Inventory</h1>
-    </div>
+    <table class="table table-sm table-hover table-responsive-sm table-bordered" width="100%">
+      <thead class="table-primary">
+      <tr>
+        <th class="fit">ID</th>
+        <th class="fit">Item</th>
+        <th class="fit">Description</th>
+        <th class="fit">Location</th>
+        <th class="fit">Mfg.</th>
+        <th class="fit">Model #</th>
+        <th class="fit">Serial #</th>
+        <th class="fit">Qty</th>
+        <th class="fit">Total Cost</th>
+        <th class="fit">Assigned To</th>
+        <th class="fit">Approved By</th>
+        <th class="fit">Approved Date</th>
+        <th class="fit">Purchase Date</th>
+        <th class="fit">Inserted By</th>
+        <th class="fit">Inserted Date</th>
+        <th class="fit">Modified By</th>
+        <th class="fit">Modified Date</th>
+        <th class="fit"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in inventory_list %}
+        <tr>
+          <td class="fit">{{item.id}}</td>
+          <td class="fit">{{item.name}}</td>
+          <td width="25%" style="word-wrap: break-all;">{{item.description}}</td>
+          <td class="fit">{{item.location}}</td>
+          <td class="fit">{{item.mfg}}</td>
+          <td class="fit">{{item.model_no}}</td>
+          <td class="fit">{{item.serial_no}}</td>
+          <td class="fit">{{item.qty}}</td>
+          <td class="fit" style="text-align: right;">${{item.total_cost|floatformat:2}}</td>
+          <td class="fit">{{item.assigned_to}}</td>
+          <td class="fit">{{item.approved_by}}</td>
+          <td class="fit" style="text-align:center">{{item.approved_date|date:"m/d/Y"}}</td>
+          <td class="fit" style="text-align:center">{{item.purchase_date|date:"m/d/Y"}}</td>
+          <td class="fit">{{item.inserted_by}}</td>
+          <td class="fit" style="text-align:center">{{item.inserted_date|date:"m/d/Y"}}</td>
+          <td class="fit">{{item.modified_by}}</td>
+          <td class="fit" style="text-align:center">{{item.modified_date|date:"m/d/Y"}}</td>
+          <td class="fit">
+            <a href="#" class="btn btn-primary btn-sm">
+                Edit
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
   </div>
+</div>
 {% endblock %}
