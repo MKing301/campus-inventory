@@ -5,7 +5,8 @@ from .models import (
     Area,
     Manufacturer,
     InventoryItem,
-    ApprovalList
+    ApprovalList,
+    Assignee
     )
 
 
@@ -15,3 +16,4 @@ admin.site.register(Area)
 admin.site.register(Manufacturer)
 admin.site.register(InventoryItem)
 admin.site.register(ApprovalList)
+admin.site.register(Assignee)
