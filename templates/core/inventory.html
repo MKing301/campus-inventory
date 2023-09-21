@@ -4,7 +4,9 @@
 {% block body %}
 <div class="page-content">
   <div class="container-fluid">
-    <h1>Inventory</h1>
+    <legend class="border-bottom mb-4">
+      Inventory
+    </legend>
     <table id="inventoryTable" class="table table-sm table-hover table-responsive-sm table-bordered" width="100%">
       <thead class="table-primary">
       <tr>
@@ -65,11 +67,11 @@
           dom: 'Bfrtip',
           columnDefs: [
               {
-                  targets: 0,
+                  targets: [0, 1, 17],
                   className: 'noVis'
               },
               {
-                  "targets": [6,7,9],
+                  "targets": [9, 10, 11, 12, 13, 14, 15, 16],
                   "visible": false
 
               }
