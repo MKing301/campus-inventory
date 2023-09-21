@@ -67,3 +67,47 @@ class Manufacturer(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ApprovalList(models.Model):
+    name = models.CharField(max_length=250)
+
+    class Meta:
+        verbose_name_plural = "Approval_List"
+
+    def __str__(self):
+        return self.name
+
+
+class InventoryItem(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.CharField(max_length=250)
+    location = models.ForeignKey(
+        Area,
+        on_delete=models.CASCADE
+    )
+    mfg = models.ForeignKey(
+        Manufacturer,
+        on_delete=models.CASCADE
+    )
+    model_no = models.CharField(max_length=100)
+    serial_no = models.CharField(max_length=100, blank=True, null=True)
+    qty = models.IntegerField()
+    total_cost = models.DecimalField(max_digits=8, decimal_places=2)
+    assigned_to = models.CharField(max_length=150)
+    approved_by = models.ForeignKey(
+        ApprovalList,
+        on_delete=models.CASCADE
+    )
+    approved_date = models.DateField()
+    purchase_date = models.DateField()
+    inserted_by = models.CharField(max_length=150)
+    inserted_date = models.DateField()
+    modified_by = models.CharField(max_length=150)
+    modified_date = models.DateField()
+
+    class Meta:
+        verbose_name_plural = "Inventory_Items"
+
+    def __str__(self):
+        return self.name
