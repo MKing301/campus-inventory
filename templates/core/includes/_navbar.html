@@ -1,7 +1,10 @@
 <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <nav
+      class="navbar navbar-expand-lg navbar-dark fixed-top"
+      style="background-color: #1432b4"
+    >
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'core:index' %}">Brand Here</a>
+        <a class="navbar-brand" href="{% url 'core:index' %}">Campus Inventory</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -30,6 +33,9 @@
             {% if user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'core:edit_profile' %}">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'core:inventory' %}">Inventory</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'core:logout_request' %}">Logout</a>
