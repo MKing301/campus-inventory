@@ -9,7 +9,7 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import User
+from .models import User, InventoryItem
 from .forms import (
     AuthenticationFormWithCaptchaField,
     NewUserForm,
@@ -73,10 +73,13 @@ def index(request):
 
 
 def inventory(request):
+    inventory_list = InventoryItem.objects.all()
     return render(request=request,
-                  template_name="core/inventory.html"
+                  template_name="core/inventory.html",
+                  context={
+                      'inventory_list': inventory_list
+                  }
                   )
-
 
 
 def login_request(request):
@@ -182,7 +185,7 @@ def register(request):
                 form.send_registration_email()
                 messages.info(
                     request,
-                    f"Email sent to Admin to activate your account."
+                    "Email sent to Admin to activate your account."
                 )
                 # END USER ACTIVE SET TO FALSE BY DEFAULT
                 return redirect("core:index")
