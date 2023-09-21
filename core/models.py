@@ -43,3 +43,17 @@ class MapLocation(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Area(models.Model):
+    name = models.CharField(max_length=100)
+    map_loc = models.ForeignKey(
+        MapLocation,
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        verbose_name_plural = "Areas"
+
+    def __str__(self):
+        return self.map_loc.name + ' - ' + self.name
