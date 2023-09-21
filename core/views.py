@@ -72,6 +72,7 @@ def index(request):
                   )
 
 
+@login_required
 def inventory(request):
     inventory_list = InventoryItem.objects.all()
     return render(request=request,
