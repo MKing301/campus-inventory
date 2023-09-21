@@ -93,8 +93,10 @@ class InventoryItem(models.Model):
     model_no = models.CharField(max_length=100)
     serial_no = models.CharField(max_length=100, blank=True, null=True)
     qty = models.IntegerField()
-    total_cost = models.DecimalField(max_digits=8, decimal_places=2)
-    assigned_to = models.CharField(max_length=150)
+    total_cost = models.DecimalField(
+        max_digits=8, decimal_places=2, blank=True, null=True
+    )
+    assigned_to = models.CharField(max_length=150, blank=True, null=True)
     approved_by = models.ForeignKey(
         ApprovalList,
         on_delete=models.CASCADE
@@ -103,8 +105,8 @@ class InventoryItem(models.Model):
     purchase_date = models.DateField()
     inserted_by = models.CharField(max_length=150)
     inserted_date = models.DateField()
-    modified_by = models.CharField(max_length=150)
-    modified_date = models.DateField()
+    modified_by = models.CharField(max_length=150, blank=True, null=True)
+    modified_date = models.DateField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Inventory_Items"
