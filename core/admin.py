@@ -6,7 +6,8 @@ from .models import (
     Manufacturer,
     InventoryItem,
     ApprovalList,
-    Assignee
+    Assignee,
+    ItemStatus
     )
 
 
@@ -17,3 +18,4 @@ admin.site.register(Manufacturer)
 admin.site.register(InventoryItem)
 admin.site.register(ApprovalList)
 admin.site.register(Assignee)
+admin.site.register(ItemStatus)
