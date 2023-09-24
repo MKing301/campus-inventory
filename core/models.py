@@ -104,6 +104,10 @@ class ItemStatus(models.Model):
 
 class InventoryItem(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    stat = models.ForeignKey(
+        ItemStatus,
+        on_delete=models.CASCADE
+    )
     description = models.CharField(max_length=250)
     location = models.ForeignKey(
         Area,
