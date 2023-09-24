@@ -94,6 +94,7 @@ def export_to_excel(request):
     writer.writerow(
         [
             'ID',
+            'Status',
             'Item',
             'Description',
             'Model #',
@@ -103,7 +104,8 @@ def export_to_excel(request):
             'Assigned To',
             'Approval Date',
             'Purchase Date',
-            'Inserted By',
+            'Inserted By Last Name',
+            'Inserted By First Name',
             'Inserted Date',
             'Modified By',
             'Modified Date',
@@ -115,6 +117,7 @@ def export_to_excel(request):
 
     items = InventoryItem.objects.all().values_list(
         'id',
+        'stat__name',
         'name',
         'description',
         'model_no',
@@ -124,7 +127,8 @@ def export_to_excel(request):
         'assigned_to',
         'approved_date',
         'purchase_date',
-        'inserted_by',
+        'inserted_by__last_name',
+        'inserted_by__first_name',
         'inserted_date',
         'modified_by',
         'modified_date',
