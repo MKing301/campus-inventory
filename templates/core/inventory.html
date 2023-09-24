@@ -11,6 +11,7 @@
       <thead class="table-primary">
       <tr>
         <th class="fit">ID</th>
+        <th class="fit">Status</th>
         <th class="fit">Item</th>
         <th class="fit">Description</th>
         <th class="fit">Location</th>
@@ -28,31 +29,38 @@
         <th class="fit">Modified By</th>
         <th class="fit">Modified Date</th>
         <th class="fit"></th>
+        <th class="fit"></th>
       </tr>
     </thead>
     <tbody>
       {% for item in inventory_list %}
         <tr>
           <td class="fit">{{item.id}}</td>
-          <td class="fit">{{item.name}}</td>
-          <td width="25%" style="word-wrap: break-all;">{{item.description}}</td>
-          <td class="fit">{{item.location}}</td>
-          <td class="fit">{{item.mfg}}</td>
-          <td class="fit">{{item.model_no}}</td>
-          <td class="fit">{{item.serial_no}}</td>
+          <td class="fit">{{item.stat}}</td>
+          <td class="fit" style="text-align: left;">{{item.name}}</td>
+          <td width="25%" style="text-align: left; word-wrap: break-all;">{{item.description}}</td>
+          <td class="fit" style="text-align: left;">{{item.location}}</td>
+          <td class="fit" style="text-align: left;">{{item.mfg}}</td>
+          <td class="fit" style="text-align: left;">{{item.model_no}}</td>
+          <td class="fit" style="text-align: left;">{{item.serial_no}}</td>
           <td class="fit">{{item.qty}}</td>
           <td class="fit" style="text-align: right;">${{item.total_cost|floatformat:2}}</td>
-          <td class="fit">{{item.assigned_to}}</td>
-          <td class="fit">{{item.approved_by}}</td>
-          <td class="fit" style="text-align:center">{{item.approved_date|date:"m/d/Y"}}</td>
-          <td class="fit" style="text-align:center">{{item.purchase_date|date:"m/d/Y"}}</td>
-          <td class="fit">{{item.inserted_by}}</td>
-          <td class="fit" style="text-align:center">{{item.inserted_date|date:"m/d/Y"}}</td>
+          <td class="fit" style="text-align: left;">{{item.assigned_to}}</td>
+          <td class="fit" style="text-align: left;">{{item.approved_by}}</td>
+          <td class="fit">{{item.approved_date|date:"m/d/Y"}}</td>
+          <td class="fit">{{item.purchase_date|date:"m/d/Y"}}</td>
+          <td class="fit" style="text-align: left;">{{item.inserted_by}}</td>
+          <td class="fit">{{item.inserted_date|date:"m/d/Y"}}</td>
           <td class="fit">{{item.modified_by}}</td>
-          <td class="fit" style="text-align:center">{{item.modified_date|date:"m/d/Y"}}</td>
+          <td class="fit">{{item.modified_date|date:"m/d/Y"}}</td>
           <td class="fit">
             <a href="#" class="btn btn-primary btn-sm">
                 Edit
+            </a>
+          </td>
+          <td class="fit">
+            <a href="#" class="btn btn-info btn-sm">
+                Notes
             </a>
           </td>
         </tr>
@@ -67,11 +75,11 @@
           dom: 'Bfrtip',
           columnDefs: [
               {
-                  targets: [0, 1, 17],
+                  targets: [0, 1, 18, 19],
                   className: 'noVis'
               },
               {
-                  "targets": [9, 10, 11, 12, 13, 14, 15, 16],
+                  "targets": [10, 11, 12, 13, 14, 15, 16, 17],
                   "visible": false
 
               }
