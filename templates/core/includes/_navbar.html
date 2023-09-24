@@ -28,16 +28,16 @@
                   Inventory
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Add</a>
-                  <a class="dropdown-item" href="#">Export to Excel</a>
-                  <a class="dropdown-item" href="{% url 'core:inventory' %}">View</a>
+                  <a class="dropdown-item" href="#">Add Item</a>
+                  <a class="dropdown-item" href="{% url 'core:export_to_excel' %}">Export to Excel</a>
+                  <a class="dropdown-item" href="{% url 'core:inventory' %}">View List</a>
                 </div>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'core:logout_request' %}">Logout</a>
               </li>
               <li>
-                <a class="nav-link disabled" href="#">Logged in as {{ user.first_name }} {{ user.last_name}}</a>
+                <a class="nav-link disabled" href="#">Logged in as {{ user.username }}</a>
               </li>
             {% else %}
               <a class="nav-link" href="{% url 'core:index' %}"
