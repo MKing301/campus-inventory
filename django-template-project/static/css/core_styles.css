@@ -1,6 +1,20 @@
+.navbar {
+  font-size: 6.25rem !important;
+}
+
 body {
     min-width: 100%;
     min-height: 100%;
+}
+
+.background-home {
+  min-width: 100%;
+  min-height: 100%;
+  background-size: cover;
+  background-position: center center;
+  margin: -15px -15px;
+  position: absolute;
+  text-align: center;
 }
 
 .page-content {
@@ -34,9 +48,6 @@ legend {
   text-align: center;
 }
 
-.pagination {
-    justify-content:center;
-}
 
 .responsive {
   max-width: 33%;
@@ -77,9 +88,12 @@ legend {
     z-index: 9999;
 }
 
-footer {
-	height: 40px;
-	font-weight: bold;
-  font-size: 24px;
-  padding-left: 20px;
+.success {
+  color: green;
+  transition: all ease-in .5s;
+}
+
+.error {
+  color: red;
+  transition: all ease-in .5s;
 }

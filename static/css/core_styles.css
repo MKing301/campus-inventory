@@ -3,8 +3,18 @@ body {
     min-height: 100%;
 }
 
+.background-home {
+  min-width: 100%;
+  min-height: 100%;
+  background-size: cover;
+  background-position: center center;
+  margin: -15px -15px;
+  position: absolute;
+  text-align: center;
+}
+
 .page-content {
-  margin-top: 100px;
+  margin-top: 150px;
   margin-bottom: 50px;
 }
 
@@ -34,9 +44,6 @@ legend {
   text-align: center;
 }
 
-.pagination {
-    justify-content:center;
-}
 
 .responsive {
   max-width: 33%;
@@ -85,11 +92,4 @@ legend {
 .error {
   color: red;
   transition: all ease-in .5s;
-}
-
-footer {
-	height: 40px;
-	font-weight: bold;
-  font-size: 24px;
-  padding-left: 20px;
 }

@@ -3,6 +3,16 @@ body {
     min-height: 100%;
 }
 
+.background-home {
+  min-width: 100%;
+  min-height: 100%;
+  background-size: cover;
+  background-position: center center;
+  margin: -15px -15px;
+  position: absolute;
+  text-align: center;
+}
+
 .page-content {
   margin-top: 100px;
   margin-bottom: 50px;
