@@ -59,7 +59,7 @@
             </a>
           </td>
           <td class="fit">
-            <a href="#" class="btn btn-info btn-sm">
+            <a href="{% url 'core:notes' item.id %}" class="btn btn-info btn-sm">
                 Notes
             </a>
           </td>
@@ -73,6 +73,7 @@
   $(document).ready(function() {
       $('#inventoryTable').DataTable( {
           dom: 'Bfrtip',
+          order: [[0, 'desc']],
           columnDefs: [
               {
                   targets: [0, 1, 18, 19],
