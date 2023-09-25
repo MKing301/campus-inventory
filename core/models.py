@@ -148,3 +148,21 @@ class InventoryItem(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ItemNotes(models.Model):
+    item = models.ForeignKey(
+        InventoryItem,
+        on_delete=models.CASCADE
+    )
+    comment = models.TextField()
+    inserted_by = models.CharField(max_length=250)
+    inserted_date = models.DateTimeField(
+        default=timezone.now
+    )
+
+    class Meta:
+        verbose_name_plural = "Item_Notes"
+
+    def __str__(self):
+        return self.item.name
