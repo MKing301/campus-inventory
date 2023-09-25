@@ -1,6 +1,8 @@
 import os
 import csv
+import datetime
 
+from pytz import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordChangeForm
@@ -10,16 +12,20 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import User, InventoryItem
+from .models import User, InventoryItem, ItemNotes
 from .forms import (
     AuthenticationFormWithCaptchaField,
     NewUserForm,
     EditProfileForm,
-    ContactForm
+    ContactForm,
+    NoteForm
 )
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse_lazy
 from .signals import log_user_logout
+
+
+EST = timezone('US/Eastern')
 
 
 class PasswordsChangeView(PasswordChangeView):
@@ -82,6 +88,52 @@ def inventory(request):
                       'inventory_list': inventory_list
                   }
                   )
+
+
+@login_required
+def notes(request, id):
+    item = InventoryItem.objects.get(id=id)
+    item_notes = ItemNotes.objects.filter(item=item)
+
+    if request.method == "POST":
+        form = NoteForm(request.POST)
+
+        if form.is_valid():
+
+            note_to_insert = form.save(commit=False)
+            note_to_insert.item_id = id
+            note_to_insert.comment = form.cleaned_data['comment']
+            note_to_insert.inserted_by = request.user
+            note_to_insert.inserted_date = datetime.datetime.now(tz=EST)
+            note_to_insert.save()
+            messages.success(
+                request,
+                'Note added successfully!'
+            )
+
+            return redirect('core:notes', id=id)
+
+        else:
+            return render(
+                request=request,
+                template_name="core/notes.html",
+                context={
+                    'item': item,
+                    'item_notes': item_notes
+                }
+            )
+
+    else:
+        print('GET')
+        form = NoteForm()
+        return render(
+            request=request,
+            template_name="core/notes.html",
+            context={
+                'item': item,
+                'item_notes': item_notes
+            }
+        )
 
 
 @login_required
