@@ -1,0 +1,102 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block title %}Item Notes{% endblock %}
+{% block body %}
+<div class="page-content">
+  <div class="container-fluid">
+    <legend class="border-bottom mb-4">
+      {{item}} Note(s)
+    </legend>
+    <div class="row">
+        <a
+          class="btn btn-outline-dark btn-sm"
+          href="{% url 'core:inventory'%}"
+          type="submit"
+          style="margin-right: 20px;"
+        >
+          Return to List
+    </a>
+      </div>
+      <br />
+      <br />
+      <div class="noteform">
+        <form class="form" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <div class="row">
+              <div class="col-sm-12">
+                <label for="comment">New Note</label>
+                <textarea class="form-control form-control-sm" id="comment" name="comment" placeholder="Enter Comments" required="true" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row" id="btn-row">
+                <div class="col-sm-2">
+                    <button
+                      class="btn btn-success btn-sm"
+                      id="submit"
+                    >
+                      Add Note
+                    </button>
+                </div>
+            </div>
+          </div>
+      </form>
+    </div>
+    <br />
+    <br />
+    <table id="notesTable" class="table table-sm table-hover table-responsive-sm table-bordered" width="100%">
+      <thead class="table-primary">
+      <tr>
+        <th class="fit">ID</th>
+        <th class="fit">Comment</th>
+        <th class="fit">Inserted By</th>
+        <th class="fit">Inserted Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for note in item_notes %}
+        <tr>
+          <td class="fit">{{note.id}}</td>
+          <td width="25%" style="text-align: left; word-wrap: break-all;">{{note.comment}}</td>
+          <td class="fit" style="text-align: left;">{{note.inserted_by}}</td>
+          <td class="fit">{{note.inserted_date|date:"m-d-Y h:i:s A"}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+      $('#notesTable').DataTable( {
+          dom: 'Bfrtip',
+          order: [[0, 'desc']],
+          columnDefs: [
+              {
+                  targets: [0],
+                  className: 'noVis'
+              },
+              {
+                  "targets": [1, 2, 3],
+                  "visible": true
+
+              }
+          ],
+          buttons: [
+              'pageLength',
+              {
+                  extend: 'colvis',
+                  columns: ':not(.noVis)'
+              }
+          ],
+          orderCellsTop: true,
+        initComplete: function() {
+          var table = this.api();
+
+        }
+      } );
+  } );
+</script>
+{% endblock %}
