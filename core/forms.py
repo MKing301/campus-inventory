@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import (
     AuthenticationForm, UserCreationForm, UserChangeForm
 )
-from .models import Contact, User
+from .models import Contact, User, ItemNotes
 from django.core.exceptions import ValidationError
 from captcha.fields import ReCaptchaField
 from core.tasks import send_registration_email_task
@@ -96,3 +96,12 @@ class ContactForm(forms.ModelForm):
         if commit:
             contact.save()
             return contact
+
+
+class NoteForm(forms.ModelForm):
+
+    class Meta:
+        model = ItemNotes
+        fields = (
+            'comment',
+        )
