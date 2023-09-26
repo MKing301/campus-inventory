@@ -7,26 +7,14 @@
     <legend class="border-bottom mb-4">
       {{item}} Note(s)
     </legend>
-    <div class="row">
-        <a
-          class="btn btn-outline-dark btn-sm"
-          href="{% url 'core:inventory'%}"
-          type="submit"
-          style="margin-right: 20px;"
-        >
-          Return to List
-    </a>
-      </div>
-      <br />
-      <br />
-      <div class="noteform">
+      <div class="noteForm">
         <form class="form" method="POST">
           {% csrf_token %}
           <div class="form-group">
             <div class="row">
               <div class="col-sm-12">
                 <label for="comment">New Note</label>
-                <textarea class="form-control form-control-sm" id="comment" name="comment" placeholder="Enter Comments" required="true" rows="3"></textarea>
+                <textarea class="form-control form-control-sm" id="comment" name="comment" placeholder="Enter Note" required="true" rows="3"></textarea>
               </div>
             </div>
           </div>
@@ -37,8 +25,15 @@
                       class="btn btn-success btn-sm"
                       id="submit"
                     >
-                      Add Note
+                      Add
                     </button>
+                    <a
+                      href="{% url 'core:inventory'%}"
+                      class="btn btn-secondary btn-sm"
+                      type="submit"
+                      >
+                          Cancel
+                    </a>
                 </div>
             </div>
           </div>
