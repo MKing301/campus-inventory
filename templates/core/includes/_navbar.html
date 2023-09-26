@@ -28,7 +28,7 @@
                   Inventory
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Add Item</a>
+                  <a class="dropdown-item" href="{% url 'core:add_item' %}">Add Item</a>
                   <a class="dropdown-item" href="{% url 'core:export_to_excel' %}">Export to Excel</a>
                   <a class="dropdown-item" href="{% url 'core:inventory' %}">View List</a>
                 </div>
