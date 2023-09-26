@@ -1,6 +1,6 @@
 {% extends 'core/layout.html' %}
 {% load static %}
-{% block title %}Item Notes{% endblock %}
+{% block title %}New Item{% endblock %}
 {% block body %}
 <div class="page-content">
     <div class="container-fluid">
@@ -164,6 +164,7 @@
                               class="form-control form-control-sm"
                               id="assigned_to"
                               name="assigned_to"
+                              required="true"
                             >
                                 <option
                                 selected="true"
@@ -185,6 +186,7 @@
                               class="form-control form-control-sm"
                               id="approved_by"
                               name="approved_by"
+                              required="true"
                             >
                                 <option
                                 selected="true"
