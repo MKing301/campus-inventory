@@ -54,7 +54,7 @@
           <td class="fit">{{item.modified_by}}</td>
           <td class="fit">{{item.modified_date|date:"m/d/Y"}}</td>
           <td class="fit">
-            <a href="#" class="btn btn-primary btn-sm">
+            <a href="{% url 'core:edit_item' item.id %}" class="btn btn-primary btn-sm">
                 Edit
             </a>
           </td>
