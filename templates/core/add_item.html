@@ -1,0 +1,266 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block title %}Item Notes{% endblock %}
+{% block body %}
+<div class="page-content">
+    <div class="container-fluid">
+        <legend class="border-bottom mb-4">
+        Add New Item
+        </legend>
+        <div class="itemForm">
+            <form class="form" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="stat">Status</label>
+                            <select
+                              class="form-control form-control-sm"
+                              id="stat"
+                              name="stat"
+                            >
+                                <option
+                                selected="true"
+                                value='-1'
+                                disabled
+                            >
+                                --- Select a Status ---
+                                </option>
+                                {% for s in stats %}
+                                    <option value="{{ s.id }}">
+                                        {{ s.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="name">Item</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="name"
+                                required="true"
+                                name="name"
+                                placeholder="Enter Item"
+                            />
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="location">Location</label>
+                            <select
+                              class="form-control form-control-sm"
+                              id="location"
+                              name="location"
+                              hx-get='{% url "core:load_areas" %}'
+                                hx-trigger="change"
+                                hx-target="#areasDiv"
+                                hx-select="#area-select"
+                            >
+                                <option
+                                selected="true"
+                                value='-1'
+                                disabled
+                            >
+                                --- Select a Location ---
+                                </option>
+                                {% for l in locations %}
+                                    <option value="{{ l.id }}">
+                                       {{ l.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="areasDiv" class="col-sm-3">
+                            <label for="area">Area</label>
+                            <select
+                              class="form-control form-control-sm"
+                              id="area"
+                              name="area"
+                            >
+                                <option
+                                selected="true"
+                                value='-1'
+                                disabled
+                            >
+                                --- Select an Area ---
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="mfg">Manufacturer</label>
+                            <select
+                              class="form-control form-control-sm"
+                              id="mfg"
+                              name="mfg"
+                            >
+                                <option
+                                selected="true"
+                                value='-1'
+                                disabled
+                            >
+                                --- Select a Manufacturer ---
+                                </option>
+                                {% for m in mfgs %}
+                                    <option value="{{ m.id }}">
+                                        {{ m.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="model_no">Model #</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="model_no"
+                                required="true"
+                                name="model_no"
+                                placeholder="Enter Model #"
+                            />
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="serial_no">Serial #</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="serial_no"
+                                name="serial_no"
+                                placeholder="Enter Serial # (OPTIONAL)"
+                            />
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="qty">Qty</label>
+                            <input
+                                type="number"
+                                min="1"
+                                class="form-control form-control-sm"
+                                id="qty"
+                                required="true"
+                                name="qty"
+                            />
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="total_cost">Total Cost</label>
+                            <input
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                class="form-control form-control-sm"
+                                id="total_cost"
+                                required="true"
+                                name="total_cost"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="assigned_to">Assigned To</label>
+                            <select
+                              class="form-control form-control-sm"
+                              id="assigned_to"
+                              name="assigned_to"
+                            >
+                                <option
+                                selected="true"
+                                value='-1'
+                                disabled
+                            >
+                                --- Select an Assignee ---
+                                </option>
+                                {% for a in assignees %}
+                                    <option value="{{ a.id }}">
+                                        {{ a.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="approved_by">Approved By</label>
+                            <select
+                              class="form-control form-control-sm"
+                              id="approved_by"
+                              name="approved_by"
+                            >
+                                <option
+                                selected="true"
+                                value='-1'
+                                disabled
+                            >
+                                --- Select an Approver ---
+                                </option>
+                                {% for a in approvers %}
+                                    <option value="{{ a.id }}">
+                                        {{ a.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="approved_date">Approval Date</label>
+                            <input
+                                type="date"
+                                data-date-format="mm/dd/yyyy"
+                                class="form-control form-control-sm"
+                                id="approved_date"
+                                required="true"
+                                name="approved_date"
+                            />
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="purchase_date">Purchase Date</label>
+                            <input
+                                type="date"
+                                data-date-format="mm/dd/yyyy"
+                                class="form-control form-control-sm"
+                                id="purchase_date"
+                                required="true"
+                                name="purchase_date"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="description">Description</label>
+                            <textarea
+                                class="form-control form-control-sm"
+                                id="decription"
+                                name="description"
+                                placeholder="Enter Description"
+                                required="true"
+                                rows="3"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button
+                            class="btn btn-success btn-sm"
+                            id="submit"
+                            style="margin-right: 20px;"
+                            >
+                                Submit
+                            </button>
+                            <a
+                            href="{% url 'core:inventory'%}"
+                            class="btn btn-secondary btn-sm"
+                            type="submit"
+                            >
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
