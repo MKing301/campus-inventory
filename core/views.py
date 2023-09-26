@@ -176,6 +176,86 @@ def add_item(request):
 
 
 @login_required
+def edit_item(request, id):
+    # Obtain record to edit by id
+    entry_to_edit = InventoryItem.objects.get(id=id)
+
+    # Obtain list of status in order by name, except the selected value
+    # by id from the form
+    stat_list = ItemStatus.objects.exclude(
+        id=entry_to_edit.stat.pk
+    ).order_by('name')
+
+    # Obtain list of locations in order by name, except the selected value
+    # by id from the form
+    loc_list = MapLocation.objects.exclude(
+        id=entry_to_edit.location.pk
+    ).order_by('name')
+
+    # Get area
+    # current_area = entry_to_edit.location.name
+    # lst = (list(current_area.split(" ")))
+    # cur_area = lst[0]
+
+    # Obtain list of areas in order by name, except the selected value
+    # by id from the form
+    area_list = Area.objects.exclude(
+        id=entry_to_edit.location.pk
+    ).order_by('name')
+
+    # Obtain list of manufacturers in order by name, except the selected value
+    # by id from the form
+    mfg_list = Manufacturer.objects.exclude(
+        id=entry_to_edit.mfg.pk
+    ).order_by('name')
+
+    # Obtain list of assignees in order by name, except the selected value
+    # by id from the form
+    assignee_list = Assignee.objects.exclude(
+        id=entry_to_edit.assigned_to.pk
+    ).order_by('name')
+
+    # Obtain list of approvers in order by name, except the selected value
+    # by id from the form
+    approvers_list = ApprovalList.objects.exclude(
+        id=entry_to_edit.approved_by.pk
+    ).order_by('name')
+
+    if request.method == "POST":
+        form = InventoryForm(request.POST, instance=entry_to_edit)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                'Updated successfully!'
+            )
+            return redirect('core:inventory')
+        else:
+            messages.error(
+                    request,
+                    form.errors
+            )
+            return redirect('core:inventory')
+
+    else:
+        form = InventoryForm(instance=entry_to_edit)
+        return render(
+            request=request,
+            template_name='core/edit_item.html',
+            context={
+                'stat_list': stat_list,
+                'loc_list': loc_list,
+                'area_list': area_list,
+                'mfg_list': mfg_list,
+                'assignee_list': assignee_list,
+                'approvers_list': approvers_list,
+                'entry_to_edit': entry_to_edit,
+                'form': form
+            }
+        )
+
+
+@login_required
 def notes(request, id):
     item = InventoryItem.objects.get(id=id)
     item_notes = ItemNotes.objects.filter(item=item)
