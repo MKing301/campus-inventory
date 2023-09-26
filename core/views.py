@@ -12,13 +12,24 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import User, InventoryItem, ItemNotes
+from .models import (
+    User,
+    InventoryItem,
+    ItemNotes,
+    ItemStatus,
+    Area,
+    MapLocation,
+    Manufacturer,
+    Assignee,
+    ApprovalList
+)
 from .forms import (
     AuthenticationFormWithCaptchaField,
     NewUserForm,
     EditProfileForm,
     ContactForm,
-    NoteForm
+    NoteForm,
+    InventoryForm
 )
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse_lazy
@@ -91,6 +102,80 @@ def inventory(request):
 
 
 @login_required
+def load_areas(request):
+    loc = request.GET.get('location')
+    areas = Area.objects.all().filter(map_loc_id=loc).order_by('name').values()
+    return render(request=request,
+                  template_name="core/areasOpts.html",
+                  context={
+                      'loc': loc,
+                      'areas': areas
+                  }
+                  )
+
+
+@login_required
+def add_item(request):
+    stats = ItemStatus.objects.all().values().order_by('name').values()
+    areas = Area.objects.all().values().order_by('name').values()
+    locations = MapLocation.objects.all().values().order_by('name').values()
+    mfgs = Manufacturer.objects.all().order_by('name').values()
+    assignees = Assignee.objects.all().order_by('name').values()
+    approvers = ApprovalList.objects.all().order_by('name').values()
+
+    if request.method == "POST":
+        form = InventoryForm(request.POST)
+
+        if form.is_valid():
+
+            item_to_insert = form.save(commit=False)
+            item_to_insert.stat = form.cleaned_data['stat']
+            item_to_insert.name = form.cleaned_data['name']
+            item_to_insert.description = form.cleaned_data['description']
+            item_to_insert.location = form.cleaned_data['location']
+            item_to_insert.mfg = form.cleaned_data['mfg']
+            item_to_insert.model_no = form.cleaned_data['model_no']
+            item_to_insert.serial_no = form.cleaned_data['serial_no']
+            item_to_insert.qty = form.cleaned_data['qty']
+            item_to_insert.total_cost = form.cleaned_data['total_cost']
+            item_to_insert.assigned_to = form.cleaned_data['assigned_to']
+            item_to_insert.approved_by = form.cleaned_data['approved_by']
+            item_to_insert.approved_date = form.cleaned_data['approved_date']
+            item_to_insert.purchase_date = form.cleaned_data['purchase_date']
+            item_to_insert.inserted_by = request.user
+            item_to_insert.inserted_date = datetime.datetime.now(tz=EST)
+            item_to_insert.save()
+            messages.success(
+                request,
+                'New inventory item added successfully!'
+            )
+
+            return redirect('core:inventory')
+
+        else:
+            return render(
+                request=request,
+                template_name="core/add_item.html",
+                context={"form": form}
+            )
+
+    else:
+        form = NoteForm()
+        return render(
+            request=request,
+            template_name="core/add_item.html",
+            context={
+                'stats': stats,
+                'areas': areas,
+                'locations': locations,
+                'mfgs': mfgs,
+                'assignees': assignees,
+                'approvers': approvers
+            }
+        )
+
+
+@login_required
 def notes(request, id):
     item = InventoryItem.objects.get(id=id)
     item_notes = ItemNotes.objects.filter(item=item)
@@ -124,7 +209,6 @@ def notes(request, id):
             )
 
     else:
-        print('GET')
         form = NoteForm()
         return render(
             request=request,
