@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import (
     AuthenticationForm, UserCreationForm, UserChangeForm
 )
-from .models import Contact, User, ItemNotes
+from .models import Contact, User, ItemNotes, InventoryItem
 from django.core.exceptions import ValidationError
 from captcha.fields import ReCaptchaField
 from core.tasks import send_registration_email_task
@@ -96,6 +96,27 @@ class ContactForm(forms.ModelForm):
         if commit:
             contact.save()
             return contact
+
+
+class InventoryForm(forms.ModelForm):
+
+    class Meta:
+        model = InventoryItem
+        fields = (
+            'name',
+            'stat',
+            'description',
+            'location',
+            'mfg',
+            'model_no',
+            'serial_no',
+            'qty',
+            'total_cost',
+            'assigned_to',
+            'approved_by',
+            'approved_date',
+            'purchase_date'
+        )
 
 
 class NoteForm(forms.ModelForm):
