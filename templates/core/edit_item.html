@@ -57,9 +57,9 @@
                             >
                                 <option
                                 selected="true"
-                                value='{{ entry_to_edit.location.pk }}'
-                            >
-                            {{ entry_to_edit.location.map_loc }}
+                                value='{{ entry_to_edit.location.map_loc.pk }}'
+                                >
+                                    {{ entry_to_edit.location.map_loc }}
                                 </option>
                                 {% for l in loc_list %}
                                     <option value="{{ l.id }}">
@@ -77,15 +77,15 @@
                             >
                             <option
                             selected="true"
-                            value='{{ entry_to_edit.location.pk }}'
+                            value='{{ entry_to_edit.location.name.pk }}'
                             >
                                 {{ entry_to_edit.location.name }}
                             </option>
-                            {% for a in area_list %}
-                                <option value="{{ a.id }}">
-                                   {{ a.name }}
-                                </option>
-                            {% endfor %}
+                                {% for a in area_list %}
+                                    <option value="{{ a.id }}">
+                                       {{ a.name }}
+                                    </option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>

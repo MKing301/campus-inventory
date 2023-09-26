@@ -189,7 +189,7 @@ def edit_item(request, id):
     # Obtain list of locations in order by name, except the selected value
     # by id from the form
     loc_list = MapLocation.objects.exclude(
-        id=entry_to_edit.location.pk
+        name=entry_to_edit.location.map_loc
     ).order_by('name')
 
     # Get area
@@ -199,9 +199,7 @@ def edit_item(request, id):
 
     # Obtain list of areas in order by name, except the selected value
     # by id from the form
-    area_list = Area.objects.exclude(
-        id=entry_to_edit.location.pk
-    ).order_by('name')
+    area_list = Area.objects.filter(map_loc=entry_to_edit.location.map_loc).order_by('name')
 
     # Obtain list of manufacturers in order by name, except the selected value
     # by id from the form
