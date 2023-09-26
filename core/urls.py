@@ -14,6 +14,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("core/inventory", views.inventory, name="inventory"),
     path("core/add_item", views.add_item, name="add_item"),
+    path("core/edit_item/<int:id>", views.edit_item, name="edit_item"),
     path("core/load_areas", views.load_areas, name="load_areas"),
     path("core/notes/<int:id>", views.notes, name="notes"),
     path(
