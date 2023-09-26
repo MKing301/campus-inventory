@@ -13,6 +13,8 @@ app_name = "core"
 urlpatterns = [
     path("", views.index, name="index"),
     path("core/inventory", views.inventory, name="inventory"),
+    path("core/add_item", views.add_item, name="add_item"),
+    path("core/load_areas", views.load_areas, name="load_areas"),
     path("core/notes/<int:id>", views.notes, name="notes"),
     path(
         "core/export_to_excel", views.export_to_excel, name="export_to_excel"
