@@ -1,16 +1,16 @@
 {% if loc %}
     <div id="area-select">
-        <label for="area">Area</label>
+        <label for="item_area">Area</label>
         <select
             class="form-control form-control-sm"
-            id="area"
-            name="area"
+            id="item_area"
+            name="item_area"
         >
             <option
             selected="true"
-            value='-1'
+            value="-1"
             disabled
-        >
+            >
             --- Select an Area ---
             </option>
             {% for a in areas %}

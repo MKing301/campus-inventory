@@ -103,15 +103,16 @@ def inventory(request):
 
 @login_required
 def load_areas(request):
-    loc = request.GET.get('location')
-    areas = Area.objects.all().filter(map_loc_id=loc).order_by('name').values()
-    return render(request=request,
-                  template_name="core/areasOpts.html",
-                  context={
-                      'loc': loc,
-                      'areas': areas
-                  }
-                  )
+    loc = request.GET.get('item_location')
+    areas = Area.objects.filter(map_loc=loc).order_by('name')
+    return render(
+        request=request,
+        template_name="core/areasOpts.html",
+        context={
+            'loc': loc,
+            'areas': areas
+        }
+    )
 
 
 @login_required
@@ -132,7 +133,8 @@ def add_item(request):
             item_to_insert.stat = form.cleaned_data['stat']
             item_to_insert.name = form.cleaned_data['name']
             item_to_insert.description = form.cleaned_data['description']
-            item_to_insert.location = form.cleaned_data['location']
+            item_to_insert.item_location = form.cleaned_data['item_location']
+            item_to_insert.item_area = form.cleaned_data['item_area']
             item_to_insert.mfg = form.cleaned_data['mfg']
             item_to_insert.model_no = form.cleaned_data['model_no']
             item_to_insert.serial_no = form.cleaned_data['serial_no']
@@ -177,6 +179,7 @@ def add_item(request):
 
 @login_required
 def edit_item(request, id):
+
     # Obtain record to edit by id
     entry_to_edit = InventoryItem.objects.get(id=id)
 
@@ -189,7 +192,7 @@ def edit_item(request, id):
     # Obtain list of locations in order by name, except the selected value
     # by id from the form
     loc_list = MapLocation.objects.exclude(
-        name=entry_to_edit.location.map_loc
+        id=entry_to_edit.item_location.pk
     ).order_by('name')
 
     # Get area
@@ -199,7 +202,7 @@ def edit_item(request, id):
 
     # Obtain list of areas in order by name, except the selected value
     # by id from the form
-    area_list = Area.objects.filter(map_loc=entry_to_edit.location.map_loc).order_by('name')
+    area_list = Area.objects.filter(map_loc=entry_to_edit.item_location.pk).order_by('name')
 
     # Obtain list of manufacturers in order by name, except the selected value
     # by id from the form
@@ -222,7 +225,26 @@ def edit_item(request, id):
     if request.method == "POST":
         form = InventoryForm(request.POST, instance=entry_to_edit)
         if form.is_valid():
-            form.save()
+            entry_to_edit = form.save(commit=False)
+            entry_to_edit.stat = form.cleaned_data['stat']
+            entry_to_edit.name = form.cleaned_data['name']
+            entry_to_edit.description = form.cleaned_data['description']
+            entry_to_edit.item_location = form.cleaned_data['item_location']
+            entry_to_edit.item_area = form.cleaned_data['item_area']
+            entry_to_edit.mfg = form.cleaned_data['mfg']
+            entry_to_edit.model_no = form.cleaned_data['model_no']
+            entry_to_edit.serial_no = form.cleaned_data['serial_no']
+            entry_to_edit.qty = form.cleaned_data['qty']
+            entry_to_edit.total_cost = form.cleaned_data['total_cost']
+            entry_to_edit.assigned_to = form.cleaned_data['assigned_to']
+            entry_to_edit.approved_by = form.cleaned_data['approved_by']
+            entry_to_edit.approved_date = form.cleaned_data['approved_date']
+            entry_to_edit.purchase_date = form.cleaned_data['purchase_date']
+            entry_to_edit.inserted_by = entry_to_edit.inserted_by
+            entry_to_edit.inserted_date = entry_to_edit.inserted_date
+            entry_to_edit.modified_by = str(request.user)
+            entry_to_edit.modified_date = datetime.datetime.now(tz=EST)
+            entry_to_edit.save()
             messages.success(
                 request,
                 'Updated successfully!'

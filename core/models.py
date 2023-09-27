@@ -59,7 +59,7 @@ class Area(models.Model):
         verbose_name_plural = "Areas"
 
     def __str__(self):
-        return self.map_loc.name + ' - ' + self.name
+        return self.name
 
 
 class Manufacturer(models.Model):
@@ -109,7 +109,11 @@ class InventoryItem(models.Model):
         on_delete=models.CASCADE
     )
     description = models.CharField(max_length=250)
-    location = models.ForeignKey(
+    item_location = models.ForeignKey(
+        MapLocation,
+        on_delete=models.CASCADE
+    )
+    item_area = models.ForeignKey(
         Area,
         on_delete=models.CASCADE
     )

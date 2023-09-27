@@ -15,6 +15,7 @@
         <th class="fit">Item</th>
         <th class="fit">Description</th>
         <th class="fit">Location</th>
+        <th class="fit">Area</th>
         <th class="fit">Mfg.</th>
         <th class="fit">Model #</th>
         <th class="fit">Serial #</th>
@@ -39,7 +40,8 @@
           <td class="fit">{{item.stat}}</td>
           <td class="fit" style="text-align: left;">{{item.name}}</td>
           <td width="25%" style="text-align: left; word-wrap: break-all;">{{item.description}}</td>
-          <td class="fit" style="text-align: left;">{{item.location}}</td>
+          <td class="fit" style="text-align: left;">{{item.item_location}}</td>
+          <td class="fit" style="text-align: left;">{{item.item_area}}</td>
           <td class="fit" style="text-align: left;">{{item.mfg}}</td>
           <td class="fit" style="text-align: left;">{{item.model_no}}</td>
           <td class="fit" style="text-align: left;">{{item.serial_no}}</td>
@@ -76,11 +78,11 @@
           order: [[0, 'desc']],
           columnDefs: [
               {
-                  targets: [0, 1, 18, 19],
+                  targets: [0, 1, 19, 20],
                   className: 'noVis'
               },
               {
-                  "targets": [10, 11, 12, 13, 14, 15, 16, 17],
+                  "targets": [11, 12, 13, 14, 15, 16, 17, 18],
                   "visible": false
 
               }

@@ -45,12 +45,12 @@
                             />
                         </div>
                         <div class="col-sm-3">
-                            <label for="location">Location</label>
+                            <label for="item_location">Location</label>
                             <select
-                              class="form-control form-control-sm"
-                              id="location"
-                              name="location"
-                              hx-get='{% url "core:load_areas" %}'
+                                class="form-control form-control-sm"
+                                id="item_location"
+                                name="item_location"
+                                hx-get='{% url "core:load_areas" %}'
                                 hx-trigger="change"
                                 hx-target="#areasDiv"
                                 hx-select="#area-select"
@@ -70,17 +70,17 @@
                             </select>
                         </div>
                         <div id="areasDiv" class="col-sm-3">
-                            <label for="area">Area</label>
+                            <label for="item_area">Area</label>
                             <select
                               class="form-control form-control-sm"
-                              id="area"
-                              name="area"
+                              id="item_area"
+                              name="item_area"
                             >
                                 <option
                                 selected="true"
-                                value='-1'
+                                value="-1"
                                 disabled
-                            >
+                                >
                                 --- Select an Area ---
                                 </option>
                             </select>

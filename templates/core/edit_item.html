@@ -45,21 +45,21 @@
                             />
                         </div>
                         <div class="col-sm-3">
-                            <label for="location">Location</label>
+                            <label for="item_location">Location</label>
                             <select
-                              class="form-control form-control-sm"
-                              id="location"
-                              name="location"
-                              hx-get='{% url "core:load_areas" %}'
+                                class="form-control form-control-sm"
+                                id="item_location"
+                                name="item_location"
+                                hx-get='{% url "core:load_areas" %}'
                                 hx-trigger="change"
                                 hx-target="#areasDiv"
                                 hx-select="#area-select"
                             >
                                 <option
                                 selected="true"
-                                value='{{ entry_to_edit.location.map_loc.pk }}'
+                                value='{{ entry_to_edit.item_location.pk }}'
                                 >
-                                    {{ entry_to_edit.location.map_loc }}
+                                    {{ entry_to_edit.item_location }}
                                 </option>
                                 {% for l in loc_list %}
                                     <option value="{{ l.id }}">
@@ -69,17 +69,17 @@
                             </select>
                         </div>
                         <div id="areasDiv" class="col-sm-3">
-                            <label for="area">Area</label>
+                            <label for="item_area">Area</label>
                             <select
                               class="form-control form-control-sm"
-                              id="area"
-                              name="area"
+                              id="item_area"
+                              name="item_area"
                             >
                             <option
                             selected="true"
-                            value='{{ entry_to_edit.location.name.pk }}'
+                            value='{{ entry_to_edit.item_area.pk }}'
                             >
-                                {{ entry_to_edit.location.name }}
+                                {{ entry_to_edit.item_area }}
                             </option>
                                 {% for a in area_list %}
                                     <option value="{{ a.id }}">
@@ -241,6 +241,55 @@
                                 required="true"
                                 rows="3"
                             >{{entry_to_edit.description}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="inserted_by">Inserted By</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="inserted_by"
+                                readonly="true"
+                                name="inserted_by"
+                                value="{{entry_to_edit.inserted_by}}"
+                            />
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="inserted_date">Inserted Date</label>
+                            <input
+                                type="date"
+                                class="form-control form-control-sm"
+                                id="inserted_date"
+                                readonly="true"
+                                name="inserted_date"
+                                value="{{entry_to_edit.inserted_date|date:'Y-m-d'}}"
+                            />
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="modified_by">Modified By</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="modified_by"
+                                readonly="true"
+                                name="modified_by"
+                                value="{{entry_to_edit.modified_by}}"
+                            />
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="modified_date">Modified Date</label>
+                            <input
+                                type="date"
+                                data-date-format="mm/dd/yyyy"
+                                class="form-control form-control-sm"
+                                id="modified_date"
+                                readonly="true"
+                                name="modified_date"
+                                value="{{entry_to_edit.modified_date|date:'Y-m-d'}}"
+                            />
                         </div>
                     </div>
                 </div>
