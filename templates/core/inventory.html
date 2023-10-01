@@ -75,14 +75,14 @@
   $(document).ready(function() {
       $('#inventoryTable').DataTable( {
           dom: 'Bfrtip',
-          order: [[0, 'desc']],
+          order: [[14, 'desc']],
           columnDefs: [
               {
                   targets: [0, 1, 19, 20],
                   className: 'noVis'
               },
               {
-                  "targets": [11, 12, 13, 14, 15, 16, 17, 18],
+                  "targets": [11, 12, 13, 15, 16, 17, 18],
                   "visible": false
 
               }
