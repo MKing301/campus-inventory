@@ -347,6 +347,7 @@ def export_to_excel(request):
             'Modified Date',
             'Approved By',
             'Location',
+            'Area',
             'Mfg'
         ]
     )
@@ -369,7 +370,8 @@ def export_to_excel(request):
         'modified_by',
         'modified_date',
         'approved_by_id__name',
-        'location_id__name',
+        'item_location_id__name',
+        'item_area_id__name',
         'mfg_id__name'
     )
 
