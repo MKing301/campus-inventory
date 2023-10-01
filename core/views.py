@@ -136,8 +136,8 @@ def add_item(request):
             item_to_insert.item_location = form.cleaned_data['item_location']
             item_to_insert.item_area = form.cleaned_data['item_area']
             item_to_insert.mfg = form.cleaned_data['mfg']
-            item_to_insert.model_no = form.cleaned_data['model_no']
-            item_to_insert.serial_no = form.cleaned_data['serial_no']
+            item_to_insert.model_no = form.cleaned_data['model_no'].upper()
+            item_to_insert.serial_no = form.cleaned_data['serial_no'].upper()
             item_to_insert.qty = form.cleaned_data['qty']
             item_to_insert.total_cost = form.cleaned_data['total_cost']
             item_to_insert.assigned_to = form.cleaned_data['assigned_to']
@@ -232,8 +232,8 @@ def edit_item(request, id):
             entry_to_edit.item_location = form.cleaned_data['item_location']
             entry_to_edit.item_area = form.cleaned_data['item_area']
             entry_to_edit.mfg = form.cleaned_data['mfg']
-            entry_to_edit.model_no = form.cleaned_data['model_no']
-            entry_to_edit.serial_no = form.cleaned_data['serial_no']
+            entry_to_edit.model_no = form.cleaned_data['model_no'].upper()
+            entry_to_edit.serial_no = form.cleaned_data['serial_no'].upper()
             entry_to_edit.qty = form.cleaned_data['qty']
             entry_to_edit.total_cost = form.cleaned_data['total_cost']
             entry_to_edit.assigned_to = form.cleaned_data['assigned_to']
