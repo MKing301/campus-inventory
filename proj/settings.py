@@ -147,10 +147,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('MAIL_USERNAME')
 EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')
 MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
-
-# Celery settings
-CELERY_BROKER_URL = "amqp://guest:guest@localhost:5672//"
-# CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
-CELERY_ENABLE_UTC = False
-CELERY_TIMEZONE = 'America/New_York'

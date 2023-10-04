@@ -5,7 +5,6 @@ from django.contrib.auth.forms import (
 from .models import Contact, User, ItemNotes, InventoryItem
 from django.core.exceptions import ValidationError
 from captcha.fields import ReCaptchaField
-from core.tasks import send_registration_email_task
 
 
 class AuthenticationFormWithCaptchaField(AuthenticationForm):
