@@ -1,0 +1,27 @@
+{% extends 'core/layout.html' %}
+{% load static %}
+{% block title %}Summary{% endblock %}
+{%block body %}
+<div class="page-content">
+    <div class="container">
+        <main>
+            <legend class="border-bottom mb4">
+                Inventory Summary
+            </legend>
+            {% if none %}
+                <p class="no_records">{{none}}</p>
+                {% else %}
+                {% autoescape off %}
+                    {{ grouped_df|safe }}
+                {% endautoescape %}
+                <!-- {% autoescape off %}
+                    {{ plt_div_bar }}
+                {% endautoescape %} -->
+                {% autoescape off %}
+                    {{ plt_div_pie }}
+                {% endautoescape %}
+            {% endif %}
+        </main>
+    </div>
+</div>
+{% endblock %}

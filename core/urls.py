@@ -11,6 +11,7 @@ app_name = "core"
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("core/summary", views.summary, name="summary"),
     path("core/inventory", views.inventory, name="inventory"),
     path("core/add_item", views.add_item, name="add_item"),
     path("core/edit_item/<int:id>", views.edit_item, name="edit_item"),

@@ -1,7 +1,3 @@
-.navbar {
-  font-size: 6.25rem !important;
-}
-
 body {
     min-width: 100%;
     min-height: 100%;
@@ -18,7 +14,7 @@ body {
 }
 
 .page-content {
-  margin-top: 100px;
+  margin-top: 150px;
   margin-bottom: 50px;
 }
 
@@ -96,4 +92,17 @@ legend {
 .error {
   color: red;
   transition: all ease-in .5s;
+}
+
+.no_records{
+  color: red;
+}
+
+#summary-main {
+  text-align: center;
+}
+
+#summary-table {
+  margin-left: auto;
+  margin-right: auto;
 }

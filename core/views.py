@@ -1,5 +1,7 @@
 import csv
 import datetime
+import pandas as pd
+import plotly.graph_objs as go
 
 from pytz import timezone
 from django.shortcuts import render, redirect
@@ -32,6 +34,8 @@ from .forms import (
 )
 from django.urls import reverse_lazy
 from .helper import send_email
+from plotly.offline import plot
+from pretty_html_table import build_table
 
 
 EST = timezone('US/Eastern')
@@ -86,6 +90,101 @@ def index(request):
     return render(request=request,
                   template_name="core/index.html"
                   )
+
+
+@login_required
+def summary(request):
+
+    try:
+        # Create dataframe from all records for specified fields
+        df = pd.DataFrame(list(
+            InventoryItem.objects.all().values(
+                'item_location__name',
+                'qty',
+                'total_cost'
+            )
+        )
+        )
+
+        if len(df.index) == 0:
+            return render(
+                request=request,
+                template_name='piano/results.html',
+                context={
+                    'none': 'No records found!'
+                }
+            )
+        else:
+            grouped_df = df.groupby(
+                'item_location__name', as_index=False
+                ).sum()
+
+            grouped_df.columns = [
+                'Location', 'Total Number of Items', 'Total Cost'
+            ]
+
+            if len(grouped_df.index) == 0:
+                return render(
+                    request=request,
+                    template_name='core/summary.html',
+                    context={
+                        'none': 'No records found!'
+                    }
+                )
+            else:
+                # trace_bar = go.Bar(
+                #     x=grouped_df['Location'],
+                #     y=grouped_df['Total Cost']
+                # )
+
+                # layout = go.Layout(
+                #     title={
+                #         'text': '<b>Inventory</b>',
+                #     },
+                #     title_x=.5,
+                #     xaxis={
+                #         'title': '<b>Location</b>'
+                #     },
+                #     yaxis={
+                #         'title': '<b>Practice Time (in minutes)</b>'
+                #     }
+                # )
+                # fig_bar = go.Figure(data=trace_bar, layout=layout)
+                # plt_div_bar = plot(fig_bar, output_type='div')
+
+                trace_pie = go.Pie(
+                    values=grouped_df['Total Number of Items'],
+                    labels=grouped_df['Location'],
+                )
+
+                config = {
+                    'responsive': True
+                }
+
+                data = [trace_pie]
+                fig_pie = go.Figure(data=data)
+                plt_div_pie = plot(
+                    fig_pie, config=config, output_type='div'
+                )
+
+                # Display info alert for results with current timestamp
+                messages.info(
+                    request=request,
+                    message='Snapshot of the overall inventory.'
+                )
+                return render(
+                    request=request,
+                    template_name='core/summary.html',
+                    context={
+                        'grouped_df': build_table(
+                            grouped_df, 'blue_light'
+                        ),
+                        'plt_div_pie': plt_div_pie
+                    }
+                )
+
+    except Exception as e:
+        print(f'Exception on data visualization: {e}')
 
 
 @login_required
@@ -401,7 +500,7 @@ def login_request(request):
                     request,
                     f'{username} logged in successfully.'
                 )
-                return redirect("core:inventory")
+                return redirect("core:summary")
 
             elif User.objects.filter(
                     username=form.cleaned_data.get('username')).exists():
