@@ -3,7 +3,6 @@ from django.contrib.auth.forms import (
     AuthenticationForm, UserCreationForm, UserChangeForm
 )
 from .models import Contact, User, ItemNotes, InventoryItem
-from django.core.exceptions import ValidationError
 from captcha.fields import ReCaptchaField
 
 

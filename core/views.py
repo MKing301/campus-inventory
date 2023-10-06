@@ -1,4 +1,3 @@
-import os
 import csv
 import datetime
 
@@ -8,7 +7,7 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView, logout_then_login
 from django.contrib.auth import (
-    login, logout, authenticate, update_session_auth_hash
+    login, authenticate, update_session_auth_hash
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -32,7 +31,6 @@ from .forms import (
     InventoryForm
 )
 from django.urls import reverse_lazy
-from .signals import log_user_logout
 from .helper import send_email
 
 
@@ -140,7 +138,8 @@ def add_item(request):
             if form.cleaned_data['serial_no'] is None:
                 item_to_insert.serial_no = form.cleaned_data['serial_no']
             else:
-                item_to_insert.serial_no = form.cleaned_data['serial_no'].upper()
+                item_to_insert.serial_no = (
+                    form.cleaned_data['serial_no'].upper())
             item_to_insert.qty = form.cleaned_data['qty']
             item_to_insert.total_cost = form.cleaned_data['total_cost']
             item_to_insert.assigned_to = form.cleaned_data['assigned_to']
@@ -205,7 +204,8 @@ def edit_item(request, id):
 
     # Obtain list of areas in order by name, except the selected value
     # by id from the form
-    area_list = Area.objects.filter(map_loc=entry_to_edit.item_location.pk).order_by('name')
+    area_list = Area.objects.filter(
+        map_loc=entry_to_edit.item_location.pk).order_by('name')
 
     # Obtain list of manufacturers in order by name, except the selected value
     # by id from the form
@@ -239,7 +239,8 @@ def edit_item(request, id):
             if form.cleaned_data['serial_no'] is None:
                 entry_to_edit.serial_no = form.cleaned_data['serial_no']
             else:
-                entry_to_edit.serial_no = form.cleaned_data['serial_no'].upper()
+                entry_to_edit.serial_no = (
+                    form.cleaned_data['serial_no'].upper())
             entry_to_edit.qty = form.cleaned_data['qty']
             entry_to_edit.total_cost = form.cleaned_data['total_cost']
             entry_to_edit.assigned_to = form.cleaned_data['assigned_to']
@@ -389,7 +390,8 @@ def export_to_excel(request):
 def login_request(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
-            form = AuthenticationFormWithCaptchaField(request, data=request.POST)
+            form = AuthenticationFormWithCaptchaField(
+                request, data=request.POST)
             if form.is_valid():
                 username = form.cleaned_data.get('username')
                 password = form.cleaned_data.get('password')
@@ -405,7 +407,7 @@ def login_request(request):
                     username=form.cleaned_data.get('username')).exists():
                 user = User.objects.filter(
                     username=form.cleaned_data.get('username')).values()
-                if(user[0]['is_active'] is False):
+                if (user[0]['is_active'] is False):
                     messages.info(
                         request,
                         "Contact the administrator to activate your account!"
@@ -445,18 +447,50 @@ def check_username(request):
     username = request.POST.get('username')
     try:
         user = User.objects.get(username=username)
-        return HttpResponse('<div id="username-error" class="error">This username already exists!</div>')
+        return HttpResponse(
+            '''<div
+                    id="username-error"
+                    class="error"
+                >
+                    This username already exists!
+                </div>
+            '''
+            )
     except User.DoesNotExist:
-        return HttpResponse('<div id="username-error" class="success">This username is available.</div>')
+        return HttpResponse(
+            '''<div
+                    id="username-error"
+                    class="success"
+                >
+                    This username is available.
+                </div>
+            '''
+            )
 
 
 def check_email(request):
     email = request.POST.get('email')
     try:
         user = User.objects.get(email=email)
-        return HttpResponse('<div id="email-error" class="error">This email already exists!</div>')
+        return HttpResponse(
+            '''<div
+                    id="email-error"
+                    class="error"
+                >
+                    This email already exists!
+                </div>
+            '''
+            )
     except User.DoesNotExist:
-        return HttpResponse('<div id="email-error" class="success">This email is available.</div>')
+        return HttpResponse(
+            '''<div
+                    id="email-error"
+                    class="success"
+                >
+                    This email is available.
+                </div>
+            '''
+            )
 
 
 def register(request):
