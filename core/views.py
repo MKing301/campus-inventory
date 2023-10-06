@@ -31,9 +31,9 @@ from .forms import (
     NoteForm,
     InventoryForm
 )
-from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse_lazy
 from .signals import log_user_logout
+from .helper import send_email
 
 
 EST = timezone('US/Eastern')
@@ -486,19 +486,7 @@ def register(request):
                 # END AUTOMATICALLY ALLOW USERS TO ACCESS APP
 
                 # START USER ACTIVE SET TO FALSE BY DEFAULT
-                subject, from_email, to = (
-                    'New User Registered for core App',
-                    os.environ.get('MAIL_USERNAME'),
-                    os.environ.get('MAIL_RECIPIENTS')
-                )
-                text_content = f'''
-                New User ...
-
-                First Name: {first_name}\n
-                Last Name: {last_name}\n
-                Username: {username}\n
-                Email: {email}\n
-                '''
+                contact_subject = 'New User Registered for core App'
                 html_content = f'''
                 <p>Greetings!</p>
                 <p>The following user registered:</p>
@@ -509,11 +497,8 @@ def register(request):
                 <li><strong>Email:</strong> {email}</li>
                 </ul>
                 '''
-                msg = EmailMultiAlternatives(
-                    subject, text_content, from_email, [to]
-                )
-                msg.attach_alternative(html_content, "text/html")
-                msg.send()
+
+                send_email(contact_subject, html_content)
 
                 messages.info(
                     request,
@@ -553,15 +538,6 @@ def contact(request):
             contact_subject = form.cleaned_data.get("contact_subject")
             contact_message = form.cleaned_data.get("contact_message")
 
-            subject, from_email, to = contact_subject, os.environ.get(
-                'MAIL_USERNAME'), os.environ.get('MAIL_RECIPIENTS')
-            text_content = f'''
-            Message from ...
-
-            Full Name: {fullname}\n
-            Email Address: {contact_email}\n
-            Contact Message: {contact_message}
-            '''
             html_content = f'''
                 <p>Message from core App User...</p>
 
@@ -569,11 +545,8 @@ def contact(request):
                 <p><strong>Email Address:</strong> {contact_email}</p>
                 <p><strong>Message:</strong> {contact_message}</p>
                 '''
-            msg = EmailMultiAlternatives(
-                subject, text_content, from_email, [to]
-            )
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+
+            send_email(contact_subject, html_content)
 
             messages.success(
                 request,
