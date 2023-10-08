@@ -98,11 +98,7 @@ legend {
   color: red;
 }
 
-#summary-main {
-  text-align: center;
-}
-
-#summary-table {
+.dataframe {
   margin-left: auto;
   margin-right: auto;
 }
