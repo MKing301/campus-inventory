@@ -123,6 +123,9 @@ def summary(request):
                 'Location', 'Total Number of Items', 'Total Cost'
             ]
 
+            grouped_df['Total Cost'] = grouped_df['Total Cost'].map(
+                '${:,.2f}'.format)
+
             if len(grouped_df.index) == 0:
                 return render(
                     request=request,
@@ -132,37 +135,46 @@ def summary(request):
                     }
                 )
             else:
-                # trace_bar = go.Bar(
-                #     x=grouped_df['Location'],
-                #     y=grouped_df['Total Cost']
-                # )
-
-                # layout = go.Layout(
-                #     title={
-                #         'text': '<b>Inventory</b>',
-                #     },
-                #     title_x=.5,
-                #     xaxis={
-                #         'title': '<b>Location</b>'
-                #     },
-                #     yaxis={
-                #         'title': '<b>Practice Time (in minutes)</b>'
-                #     }
-                # )
-                # fig_bar = go.Figure(data=trace_bar, layout=layout)
-                # plt_div_bar = plot(fig_bar, output_type='div')
 
                 trace_pie = go.Pie(
                     values=grouped_df['Total Number of Items'],
                     labels=grouped_df['Location'],
+                    # textinfo='percent+value',
                 )
 
                 config = {
-                    'responsive': True
+                    'responsive': True,
+                    'displaylogo': False
                 }
 
                 data = [trace_pie]
+
                 fig_pie = go.Figure(data=data)
+
+                fig_pie.update_layout(
+                    autosize=True,
+                    # width=600,
+                    # height=600,
+                    title_text='<b>Inventory Percentage per Location</b>',
+                    title_x=0.50,
+                    title_y=0.95,
+                    title_font=dict(size=18),
+                    legend_font_size=14,
+                    legend=dict(
+                        orientation="h"
+                    ),
+                    # legend_yanchor='bottom',
+                    # legend_y=0,
+                    # legend_xanchor='right',
+                    # legend_x=2.5,
+                    # margin=dict(
+                    #     l=0,
+                    #     r=0,
+                    #     b=0,
+                    #     t=0
+                    # ),
+                )
+
                 plt_div_pie = plot(
                     fig_pie, config=config, output_type='div'
                 )
@@ -177,7 +189,9 @@ def summary(request):
                     template_name='core/summary.html',
                     context={
                         'grouped_df': build_table(
-                            grouped_df, 'blue_light'
+                            grouped_df,
+                            'blue_dark',
+                            text_align='right'
                         ),
                         'plt_div_pie': plt_div_pie
                     }
