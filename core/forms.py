@@ -8,16 +8,16 @@ from captcha.fields import ReCaptchaField
 
 class AuthenticationFormWithCaptchaField(AuthenticationForm):
     captcha = ReCaptchaField(
-        public_key='6Le6CNkdAAAAAM0erjmCJJ_YW_tnVDhfFmvYHEQX',
-        private_key='6Le6CNkdAAAAAKUVozivgonzS4yEnlfH8Ai0Ck2Y',
+        public_key='6LeCKb0oAAAAAMVblqti7EY4EiJ_k4R8P9WPBVEL',
+        private_key='6LeCKb0oAAAAAJTxuU0UCoDeu6X-Y3CzWefNYAfF',
     )
 
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
     captcha = ReCaptchaField(
-        public_key='6Le6CNkdAAAAAM0erjmCJJ_YW_tnVDhfFmvYHEQX',
-        private_key='6Le6CNkdAAAAAKUVozivgonzS4yEnlfH8Ai0Ck2Y',
+        public_key='6LeCKb0oAAAAAMVblqti7EY4EiJ_k4R8P9WPBVEL',
+        private_key='6LeCKb0oAAAAAJTxuU0UCoDeu6X-Y3CzWefNYAfF',
     )
 
     class Meta:
