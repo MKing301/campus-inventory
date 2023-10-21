@@ -633,7 +633,7 @@ def register(request):
                 # END AUTOMATICALLY ALLOW USERS TO ACCESS APP
 
                 # START USER ACTIVE SET TO FALSE BY DEFAULT
-                contact_subject = 'New User Registered for core App'
+                contact_subject = 'New User Registered For Inventory App'
                 html_content = f'''
                 <p>Greetings!</p>
                 <p>The following user registered:</p>
@@ -686,7 +686,7 @@ def contact(request):
             contact_message = form.cleaned_data.get("contact_message")
 
             html_content = f'''
-                <p>Message from core App User...</p>
+                <p>Message from Inventory App Contact Form...</p>
 
                 <p><strong>Full Name:</strong> {fullname}</p>
                 <p><strong>Email Address:</strong> {contact_email}</p>
