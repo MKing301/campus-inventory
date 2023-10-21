@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['192.168.1.77']
 
@@ -147,3 +147,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('MAIL_USERNAME')
 EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')
 MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
