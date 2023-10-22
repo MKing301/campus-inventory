@@ -14,6 +14,20 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-3">
+                            <label for="asset_id">Asset ID</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="asset_id"
+                                name="asset_id"
+                                value="{{entry_to_edit.asset_id}}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
                             <label for="stat">Status</label>
                             <select
                               class="form-control form-control-sm"
@@ -214,6 +228,20 @@
                                 required="true"
                                 name="approved_date"
                                 value="{{entry_to_edit.approved_date|date:'Y-m-d'}}"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="purchased_from">Purchased From</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="purchased_from"
+                                name="purchased_from"
+                                value="{{entry_to_edit.purchased_from}}"
                             />
                         </div>
                         <div class="col-sm-3">

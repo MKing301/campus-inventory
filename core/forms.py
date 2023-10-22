@@ -93,6 +93,7 @@ class InventoryForm(forms.ModelForm):
     class Meta:
         model = InventoryItem
         fields = (
+            'asset_id',
             'name',
             'stat',
             'description',
@@ -106,6 +107,7 @@ class InventoryForm(forms.ModelForm):
             'assigned_to',
             'approved_by',
             'approved_date',
+            'purchased_from',
             'purchase_date'
         )
 

@@ -11,6 +11,20 @@
             <form class="form" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label for="asset_id">Asset ID</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    id="asset_id"
+                                    name="asset_id"
+                                    placeholder="Optional"
+                                />
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-3">
                             <label for="stat">Status</label>
@@ -211,6 +225,20 @@
                                 id="approved_date"
                                 required="true"
                                 name="approved_date"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="purchased_from">Purchased From</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm"
+                                id="purchased_from"
+                                name="purchased_from"
+                                placeholder="Optional"
                             />
                         </div>
                         <div class="col-sm-3">

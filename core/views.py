@@ -179,11 +179,6 @@ def summary(request):
                     fig_pie, config=config, output_type='div'
                 )
 
-                # Display info alert for results with current timestamp
-                messages.info(
-                    request=request,
-                    message='Snapshot of the overall inventory.'
-                )
                 return render(
                     request=request,
                     template_name='core/summary.html',
@@ -242,6 +237,7 @@ def add_item(request):
 
             item_to_insert = form.save(commit=False)
             item_to_insert.stat = form.cleaned_data['stat']
+            item_to_insert.asset_id = form.cleaned_data['asset_id']
             item_to_insert.name = form.cleaned_data['name']
             item_to_insert.description = form.cleaned_data['description']
             item_to_insert.item_location = form.cleaned_data['item_location']
@@ -258,6 +254,7 @@ def add_item(request):
             item_to_insert.assigned_to = form.cleaned_data['assigned_to']
             item_to_insert.approved_by = form.cleaned_data['approved_by']
             item_to_insert.approved_date = form.cleaned_data['approved_date']
+            item_to_insert.purchased_from = form.cleaned_data['purchased_from']
             item_to_insert.purchase_date = form.cleaned_data['purchase_date']
             item_to_insert.inserted_by = request.user
             item_to_insert.inserted_date = datetime.datetime.now(tz=EST)
@@ -343,6 +340,7 @@ def edit_item(request, id):
         if form.is_valid():
             entry_to_edit = form.save(commit=False)
             entry_to_edit.stat = form.cleaned_data['stat']
+            entry_to_edit.asset_id = form.cleaned_data['asset_id']
             entry_to_edit.name = form.cleaned_data['name']
             entry_to_edit.description = form.cleaned_data['description']
             entry_to_edit.item_location = form.cleaned_data['item_location']
@@ -359,6 +357,7 @@ def edit_item(request, id):
             entry_to_edit.assigned_to = form.cleaned_data['assigned_to']
             entry_to_edit.approved_by = form.cleaned_data['approved_by']
             entry_to_edit.approved_date = form.cleaned_data['approved_date']
+            entry_to_edit.purchased_from = form.cleaned_data['purchased_from']
             entry_to_edit.purchase_date = form.cleaned_data['purchase_date']
             entry_to_edit.inserted_by = entry_to_edit.inserted_by
             entry_to_edit.inserted_date = entry_to_edit.inserted_date
@@ -451,6 +450,7 @@ def export_to_excel(request):
         [
             'ID',
             'Status',
+            'Asset ID',
             'Item',
             'Description',
             'Model #',
@@ -459,6 +459,7 @@ def export_to_excel(request):
             'Total Cost',
             'Assigned To',
             'Approval Date',
+            'Purchased From',
             'Purchase Date',
             'Inserted By Last Name',
             'Inserted By First Name',
@@ -475,6 +476,7 @@ def export_to_excel(request):
     items = InventoryItem.objects.all().values_list(
         'id',
         'stat__name',
+        'asset_id',
         'name',
         'description',
         'model_no',
@@ -483,6 +485,7 @@ def export_to_excel(request):
         'total_cost',
         'assigned_to',
         'approved_date',
+        'purchased_from',
         'purchase_date',
         'inserted_by__last_name',
         'inserted_by__first_name',

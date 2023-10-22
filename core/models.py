@@ -103,7 +103,11 @@ class ItemStatus(models.Model):
 
 
 class InventoryItem(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    asset_id = models.CharField(
+        max_length=100,
+        blank=True
+    )
+    name = models.CharField(max_length=100)
     stat = models.ForeignKey(
         ItemStatus,
         on_delete=models.CASCADE
@@ -138,6 +142,7 @@ class InventoryItem(models.Model):
         on_delete=models.CASCADE
     )
     approved_date = models.DateField()
+    purchased_from = models.CharField(max_length=100, blank=True)
     purchase_date = models.DateField()
     inserted_by = models.ForeignKey(
         User,
