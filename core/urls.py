@@ -62,6 +62,7 @@ urlpatterns = [
         ),
         name='password_reset_complete'),
     path("contact/", views.contact, name='contact'),
+    path("calendar/", views.calendar, name='calendar'),
 ]
 
 htmx_urlpatterns = [
