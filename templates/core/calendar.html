@@ -1,0 +1,18 @@
+{% extends 'core/layout.html' %}
+{% block title %} Calendar {% endblock %}
+{% load static %}
+{% block body %}
+{% load widget_tweaks %}
+<div class="page-content">
+    <div class="container">
+        <iframe
+            src="https://calendar.google.com/calendar/embed?height=800&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&showNav=1&showDate=1&showTitle=0&src=Z2V0aHNlbWFuZS5pbnZlbnRvcnlAZ21haWwuY29t&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039BE5&color=%230B8043"
+            style="border-width:0"
+            width="1000"
+            height="800"
+            frameborder="0"
+            scrolling="no">
+        </iframe>
+    </div>
+</div>
+{% endblock %}
