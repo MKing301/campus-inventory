@@ -112,7 +112,7 @@ class InventoryItem(models.Model):
         ItemStatus,
         on_delete=models.CASCADE
     )
-    description = models.CharField(max_length=250)
+    description = models.TextField()
     item_location = models.ForeignKey(
         MapLocation,
         on_delete=models.CASCADE
