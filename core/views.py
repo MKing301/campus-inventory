@@ -109,7 +109,7 @@ def summary(request):
         if len(df.index) == 0:
             return render(
                 request=request,
-                template_name='piano/results.html',
+                template_name='core/summary.html',
                 context={
                     'none': 'No records found!'
                 }
@@ -194,6 +194,13 @@ def summary(request):
 
     except Exception as e:
         print(f'Exception on data visualization: {e}')
+        return render(
+                    request=request,
+                    template_name='core/summary.html',
+                    context={
+                        'none': 'No records found!'
+                    }
+                )
 
 
 @login_required
