@@ -686,6 +686,14 @@ def register(request):
         return redirect("core:index")
 
 
+@login_required
+def calendar(request):
+    return render(
+                request=request,
+                template_name="core/calendar.html"
+            )
+
+
 def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
