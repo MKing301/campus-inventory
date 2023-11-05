@@ -64,7 +64,7 @@ class EditProfileForm(UserChangeForm):
 
 class ContactForm(forms.ModelForm):
     captcha = ReCaptchaField(
-        public_key='6Le6CNkdAAAAAM0erjmCJJ_YW_tnVDhfFmvYHEQX',
+        public_key='6LeCKb0oAAAAAMVblqti7EY4EiJ_k4R8P9WPBVEL',
         private_key='6Le6CNkdAAAAAKUVozivgonzS4yEnlfH8Ai0Ck2Y',
     )
 
