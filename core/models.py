@@ -112,7 +112,7 @@ class InventoryItem(models.Model):
         ItemStatus,
         on_delete=models.CASCADE
     )
-    description = models.CharField(max_length=250)
+    description = models.TextField()
     item_location = models.ForeignKey(
         MapLocation,
         on_delete=models.CASCADE
@@ -129,6 +129,9 @@ class InventoryItem(models.Model):
     serial_no = models.CharField(max_length=100, blank=True, null=True)
     qty = models.IntegerField()
     total_cost = models.DecimalField(
+        max_digits=8, decimal_places=2, blank=True, null=True
+    )
+    cost_per_item = models.DecimalField(
         max_digits=8, decimal_places=2, blank=True, null=True
     )
     assigned_to = models.ForeignKey(
