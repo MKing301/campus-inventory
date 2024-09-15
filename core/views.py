@@ -1,3 +1,4 @@
+import logging
 import csv
 import datetime
 import pandas as pd
@@ -9,7 +10,7 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView, logout_then_login
 from django.contrib.auth import (
-    login, authenticate, update_session_auth_hash
+    login, logout, authenticate, update_session_auth_hash
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -33,11 +34,13 @@ from .forms import (
     InventoryForm
 )
 from django.urls import reverse_lazy
+from .signals import log_user_logout
 from .helper import send_email
 from plotly.offline import plot
 from pretty_html_table import build_table
 
 
+logger = logging.getLogger(__name__)
 EST = timezone('US/Eastern')
 
 
@@ -45,6 +48,12 @@ class PasswordsChangeView(PasswordChangeView):
     model = User
     form_class = PasswordChangeForm
     success_url = reverse_lazy('core:password_changed')
+
+
+def maintenance(request):
+    return render(
+        request=request,
+        template_name='core/maintenance.html')
 
 
 @login_required
@@ -109,29 +118,33 @@ def summary(request):
         if len(df.index) == 0:
             return render(
                 request=request,
-                template_name='piano/results.html',
+                template_name='core/summary.html',
                 context={
-                    'none': 'No records found!'
+                    'msg': 'No records found!'
                 }
             )
         else:
+            #grouped_df = df.groupby(
+            #    'item_location__name', as_index=False
+            #    ).sum()
+
             grouped_df = df.groupby(
-                'item_location__name', as_index=False
-                ).sum()
+                ['item_location__name']
+                ).agg({'qty': 'sum', 'total_cost': 'sum'}).reset_index()
 
             grouped_df.columns = [
                 'Location', 'Total Number of Items', 'Total Cost'
             ]
 
-            grouped_df['Total Cost'] = grouped_df['Total Cost'].map(
-                '${:,.2f}'.format)
+            #grouped_df['Total Cost'] = grouped_df['Total Cost'].map(
+            #    '${:,.2f}'.format)
 
             if len(grouped_df.index) == 0:
                 return render(
                     request=request,
                     template_name='core/summary.html',
                     context={
-                        'none': 'No records found!'
+                        'msg': 'No records found!'
                     }
                 )
             else:
@@ -193,12 +206,43 @@ def summary(request):
                 )
 
     except Exception as e:
-        print(f'Exception on data visualization: {e}')
-
+        logging.error(f'Exception on data visualization: {e}')
+        return render(
+                    request=request,
+                    template_name='core/summary.html',
+                    context={
+                        'msg': 'No records found!'
+                    }
+                )
 
 @login_required
 def inventory(request):
-    inventory_list = InventoryItem.objects.all()
+    #inventory_list = InventoryItem.objects.all()
+    inventory_list = InventoryItem.objects.all().values(
+        'id',
+        'asset_id',
+        'name',
+        'stat__name',
+        'description',
+        'item_location__name',
+        'item_area__name',
+        'mfg__name',
+        'model_no',
+        'serial_no',
+        'qty',
+        'total_cost',
+        'cost_per_item',
+        'assigned_to__name',
+        'approved_by__name',
+        'approved_date',
+        'purchased_from',
+        'purchase_date',
+        'inserted_by',
+        'inserted_date',
+        'modified_by',
+        'modified_date'
+    )
+
     return render(request=request,
                   template_name="core/inventory.html",
                   context={
@@ -251,6 +295,7 @@ def add_item(request):
                     form.cleaned_data['serial_no'].upper())
             item_to_insert.qty = form.cleaned_data['qty']
             item_to_insert.total_cost = form.cleaned_data['total_cost']
+            item_to_insert.cost_per_item = form.cleaned_data['total_cost']/form.cleaned_data['qty']
             item_to_insert.assigned_to = form.cleaned_data['assigned_to']
             item_to_insert.approved_by = form.cleaned_data['approved_by']
             item_to_insert.approved_date = form.cleaned_data['approved_date']
@@ -354,6 +399,7 @@ def edit_item(request, id):
                     form.cleaned_data['serial_no'].upper())
             entry_to_edit.qty = form.cleaned_data['qty']
             entry_to_edit.total_cost = form.cleaned_data['total_cost']
+            entry_to_edit.cost_per_item = entry_to_edit.total_cost/entry_to_edit.qty
             entry_to_edit.assigned_to = form.cleaned_data['assigned_to']
             entry_to_edit.approved_by = form.cleaned_data['approved_by']
             entry_to_edit.approved_date = form.cleaned_data['approved_date']
@@ -442,65 +488,71 @@ def notes(request, id):
 @login_required
 def export_to_excel(request):
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="inventory.csv"'
+    try:
 
-    writer = csv.writer(response)
-    writer.writerow(
-        [
-            'ID',
-            'Status',
-            'Asset ID',
-            'Item',
-            'Description',
-            'Model #',
-            'Serial #',
-            'Qty',
-            'Total Cost',
-            'Assigned To',
-            'Approval Date',
-            'Purchased From',
-            'Purchase Date',
-            'Inserted By Last Name',
-            'Inserted By First Name',
-            'Inserted Date',
-            'Modified By',
-            'Modified Date',
-            'Approved By',
-            'Location',
-            'Area',
-            'Mfg'
-        ]
-    )
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="inventory.csv"'
 
-    items = InventoryItem.objects.all().values_list(
-        'id',
-        'stat__name',
-        'asset_id',
-        'name',
-        'description',
-        'model_no',
-        'serial_no',
-        'qty',
-        'total_cost',
-        'assigned_to',
-        'approved_date',
-        'purchased_from',
-        'purchase_date',
-        'inserted_by__last_name',
-        'inserted_by__first_name',
-        'inserted_date',
-        'modified_by',
-        'modified_date',
-        'approved_by_id__name',
-        'item_location_id__name',
-        'item_area_id__name',
-        'mfg_id__name'
-    )
+        writer = csv.writer(response)
+        writer.writerow(
+            [
+                'ID',
+                'Status',
+                'Asset ID',
+                'Item',
+                'Description',
+                'Model #',
+                'Serial #',
+                'Qty',
+                'Total Cost',
+                'Assigned To',
+                'Approval Date',
+                'Purchased From',
+                'Purchase Date',
+                'Inserted By Last Name',
+                'Inserted By First Name',
+                'Inserted Date',
+                'Modified By',
+                'Modified Date',
+                'Approved By',
+                'Location',
+                'Area',
+                'Mfg'
+            ]
+        )
 
-    for item in items:
-        writer.writerow(item)
-    return response
+        items = InventoryItem.objects.all().values_list(
+            'id',
+            'stat__name',
+            'asset_id',
+            'name',
+            'description',
+            'model_no',
+            'serial_no',
+            'qty',
+            'total_cost',
+            'assigned_to',
+            'approved_date',
+            'purchased_from',
+            'purchase_date',
+            'inserted_by__last_name',
+            'inserted_by__first_name',
+            'inserted_date',
+            'modified_by',
+            'modified_date',
+            'approved_by_id__name',
+            'item_location_id__name',
+            'item_area_id__name',
+            'mfg_id__name'
+        )
+
+        for item in items:
+            writer.writerow(item)
+        return response
+
+    except Exception as e:
+        logger.error(f'Export failed: {e}')
+        return redirect("core:summary")
 
 
 def login_request(request):
@@ -513,6 +565,7 @@ def login_request(request):
                 password = form.cleaned_data.get('password')
                 user = authenticate(username=username, password=password)
                 login(request, user)
+                logger.info(f'{request.user} logged in.')
                 messages.success(
                     request,
                     f'{username} logged in successfully.'
@@ -679,6 +732,15 @@ def register(request):
         return redirect("core:index")
 
 
+
+@login_required
+def calendar(request):
+    return render(
+                request=request,
+                template_name="core/calendar.html"
+            )
+
+
 def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
@@ -743,4 +805,5 @@ def edit_profile(request):
 
 @login_required
 def logout_request(request):
+    logger.info(f'{request.user} logged out.')
     return logout_then_login(request, login_url='/')
