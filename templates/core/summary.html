@@ -8,9 +8,9 @@
             <legend class="border-bottom mb4">
                 Inventory Summary
             </legend>
-            {% if none %}
-                <p class="no_records">{{none}}</p>
-                {% else %}
+            {% if msg %}
+                <p class="no_records">{{msg}}</p>
+            {% else %}
                 {% autoescape off %}
                     {{ grouped_df|safe }}
                 {% endautoescape %}
