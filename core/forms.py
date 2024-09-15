@@ -64,8 +64,8 @@ class EditProfileForm(UserChangeForm):
 
 class ContactForm(forms.ModelForm):
     captcha = ReCaptchaField(
-        public_key='6Le6CNkdAAAAAM0erjmCJJ_YW_tnVDhfFmvYHEQX',
-        private_key='6Le6CNkdAAAAAKUVozivgonzS4yEnlfH8Ai0Ck2Y',
+        public_key='6LeCKb0oAAAAAMVblqti7EY4EiJ_k4R8P9WPBVEL',
+        private_key='6LeCKb0oAAAAAJTxuU0UCoDeu6X-Y3CzWefNYAfF',
     )
 
     class Meta:
@@ -104,6 +104,7 @@ class InventoryForm(forms.ModelForm):
             'serial_no',
             'qty',
             'total_cost',
+            'cost_per_item',
             'assigned_to',
             'approved_by',
             'approved_date',
