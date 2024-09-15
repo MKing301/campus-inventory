@@ -84,6 +84,7 @@ target/
 *.pyc
 __pycache__/
 local_settings.py
+logs/
 
 db.sqlite3
 
@@ -96,3 +97,5 @@ env/
 
 # Misc
 notes.txt
+campusinventorydb.json
+maintenance_mode_state.txt
