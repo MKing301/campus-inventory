@@ -36,7 +36,7 @@
                             >
                                 <option
                                 selected="true"
-                                value='{{ entry_to_edit.stat.pk }}'
+                                value="{{ entry_to_edit.stat.pk }}"
                                 >
                                 {{ entry_to_edit.stat }}
                                 </option>
@@ -64,14 +64,14 @@
                                 class="form-control form-control-sm"
                                 id="item_location"
                                 name="item_location"
-                                hx-get='{% url "core:load_areas" %}'
+                                hx-get="{% url 'core:load_areas' %}"
                                 hx-trigger="change"
                                 hx-target="#areasDiv"
                                 hx-select="#area-select"
                             >
                                 <option
                                 selected="true"
-                                value='{{ entry_to_edit.item_location.pk }}'
+                                value="{{ entry_to_edit.item_location.pk }}"
                                 >
                                     {{ entry_to_edit.item_location }}
                                 </option>
@@ -91,7 +91,7 @@
                             >
                             <option
                             selected="true"
-                            value='{{ entry_to_edit.item_area.pk }}'
+                            value="{{ entry_to_edit.item_area.pk }}"
                             >
                                 {{ entry_to_edit.item_area }}
                             </option>
@@ -115,7 +115,7 @@
                             >
                                 <option
                                 selected="true"
-                                value='{{ entry_to_edit.mfg.pk }}'
+                                value="{{ entry_to_edit.mfg.pk }}"
                             >
                                 {{ entry_to_edit.mfg }}
                                 </option>
@@ -137,7 +137,7 @@
                                 value="{{entry_to_edit.model_no}}"
                             />
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <label for="serial_no">Serial #</label>
                             <input
                                 type="text"
@@ -147,7 +147,11 @@
                                 value="{{entry_to_edit.serial_no}}"
                             />
                         </div>
-                        <div class="col-sm-2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
                             <label for="qty">Qty</label>
                             <input
                                 type="number"
@@ -159,7 +163,7 @@
                                 value="{{entry_to_edit.qty}}"
                             />
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <label for="total_cost">Total Cost</label>
                             <input
                                 type="number"
@@ -170,6 +174,19 @@
                                 required="true"
                                 name="total_cost"
                                 value="{{entry_to_edit.total_cost}}"
+                            />
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="cost_per_item">Cost/Item</label>
+                            <input
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                class="form-control form-control-sm"
+                                id="total_cost"
+                                name="cost_per_item"
+                                readonly="true"
+                                value="{{entry_to_edit.cost_per_item}}"
                             />
                         </div>
                     </div>
@@ -186,7 +203,7 @@
                             >
                                 <option
                                 selected="true"
-                                value='{{ entry_to_edit.assigned_to.pk }}'
+                                value="{{ entry_to_edit.assigned_to.pk }}"
                                 >
                                     {{ entry_to_edit.assigned_to }}
                                 </option>
@@ -207,7 +224,7 @@
                             >
                                 <option
                                 selected="true"
-                                value='{{ entry_to_edit.approved_by.pk }}'
+                                value="{{ entry_to_edit.approved_by.pk }}"
                                 >
                                     {{ entry_to_edit.approved_by }}
                                 </option>
