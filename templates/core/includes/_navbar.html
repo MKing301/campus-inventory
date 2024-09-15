@@ -1,65 +1,81 @@
 <!-- Navigation -->
-    <nav
-      class="navbar navbar-expand-lg navbar-dark fixed-top"
-      style="background-color: #1432b4"
-    >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'core:index' %}">Campus Inventory</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarResponsive"
-          aria-controls="navbarResponsive"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'core:contact' %}"
-                >Contact Us
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'core:edit_profile' %}">Profile</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Inventory
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'core:summary' %}">Summary</a>
-                  <a class="dropdown-item" href="{% url 'core:inventory' %}">View List</a>
-                  <a class="dropdown-item" href="{% url 'core:add_item' %}">Add Item</a>
-                  <a class="dropdown-item" href="{% url 'core:export_to_excel' %}">Export to Excel</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'core:logout_request' %}">Logout</a>
-              </li>
-              <li>
-                <a class="nav-link disabled" href="#">Logged in as {{ user.username }}</a>
-              </li>
-            {% else %}
-              <li>
-                <a class="nav-link" href="{% url 'core:index' %}"
-                  >Home
-                  <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'core:register' %}">Register</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'core:login_request' %}">Login</a>
-              </li>
-            {% endif %}
+{% load static %}
+<nav
+class="navbar navbar-expand-lg navbar-dark fixed-top"
+style="background-color: #1432b4"
+>
+<div class="container-fluid">
+<a class="navbar-brand" href="{% url 'core:index' %}">Campus Inventory</a>
+<button
+  class="navbar-toggler"
+  type="button"
+  data-toggle="collapse"
+  data-target="#navbarResponsive"
+  aria-controls="navbarResponsive"
+  aria-expanded="false"
+  aria-label="Toggle navigation"
+>
+  <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarResponsive">
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'core:contact' %}"
+        >Contact Us
+        <span class="sr-only">(current)</span>
+      </a>
+    </li>
+    {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'core:calendar' %}">Calendar</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'core:edit_profile' %}">Profile</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Inventory
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'core:summary' %}">Summary</a>
+          <a class="dropdown-item" href="{% url 'core:inventory' %}">View List</a>
+          <a class="dropdown-item" href="{% url 'core:add_item' %}">Add Item</a>
+          <a class="dropdown-item" href="{% url 'core:export_to_excel' %}">Export to Excel</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Help
+        </a>
+        <div class="dropdown-menu" aria-labelledby="helpDropdown">
+          <a class="dropdown-item" href="https://www.dropbox.com/scl/fi/qo62m8jo8bt2uo5fc9no0/GSDA_Inventory_App.pdf?rlkey=u0tuwko1eg09b6wkvz59pef4r&dl=0" target="_blank">Documentation</a>
+          <a class="dropdown-item dropdown-toggle" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Floor Plans</a>
+          <ul class="dropdown-menu dropdown-submenu">
+            <a class="dropdown-item" href="{% static 'images/family_life_floor_plan.png' %}" target="_blank">Family Life Center</a>
           </ul>
         </div>
-      </div>
-    </nav>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'core:logout_request' %}">Logout</a>
+      </li>
+      <li>
+        <a class="nav-link disabled" href="#">Logged in as {{ user.username }}</a>
+      </li>
+    {% else %}
+      <li>
+        <a class="nav-link" href="{% url 'core:index' %}"
+          >Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'core:register' %}">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'core:login_request' %}">Login</a>
+      </li>
+    {% endif %}
+  </ul>
+</div>
+</div>
+</nav>
