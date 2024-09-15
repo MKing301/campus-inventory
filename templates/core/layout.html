@@ -50,14 +50,25 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+
   <title>
     {% block title %} Home {% endblock %}
   </title>
+
   </head>
 
   <body>
     <!-- Page Content -->
     <div class="container-fluid">
+        <div id="loader">
+          <img
+              class="loader-img"
+              src="{% static 'images/Spinner-5.gif' %}"
+              alt="Spinner..."
+          />
+      </div>
       <br />
       {% include "core/includes/_navbar.html" %} <!-- Navbar -->
       {% include "core/includes/_messages.html" %} <!-- Messages -->
@@ -75,5 +86,11 @@
       }, 7500);
     </script>
 
+    <script type="text/JavaScript">
+      window.addEventListener("load", () => {
+        const loader = document.querySelector("#loader");
+        loader.classList.add("hidden");
+      })
+    </script>
   </body>
 </html>
