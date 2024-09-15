@@ -19,7 +19,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.77']
+ALLOWED_HOSTS = ['.gethsemane-inventory.net']
 
 
 # Application definition
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'core',
     'widget_tweaks',
     'captcha',
+    'maintenance_mode',
 ]
 
 MIDDLEWARE = [
@@ -44,7 +45,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
+
+CSP_STYLE_SRC = ["'self'", "cdn.jsdelivr.net"]
 
 ROOT_URLCONF = 'proj.urls'
 
@@ -118,7 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'django-template-project/static'
+STATIC_ROOT = 'campus-inventory/static'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
@@ -147,6 +151,67 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('MAIL_USERNAME')
 EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')
 MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
+
+SECURE_HSTS_SECONDS = 2592000
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+# if True the maintenance-mode will be activated
+MAINTENANCE_MODE = False
+
+# if True admin site will not be affected by the maintenance-mode page
+MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
+
+# if True the staff will not see the maintenance-mode page
+MAINTENANCE_MODE_IGNORE_STAFF = True
+
+# the template that will be shown by the maintenance-mode page
+MAINTENANCE_MODE_TEMPLATE = "core/maintenance.html"
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '[%(asctime)s] - (%(levelname)-5.5s) - {%(name)-15.15s} - %(message)s'
+        },
+        'file': {
+            'format': '[%(asctime)s] - (%(levelname)s) - {%(name)s} - %(message)s'
+        }
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'inventory.log'),
+            'maxBytes': 10*1024*1024,  # 10 MB
+            'backupCount': 5,
+            'formatter': 'file',
+        },
+        'console': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+            'stream': 'ext://sys.stdout'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'ERROR',
+            'propagate': True
+        },
+        'core': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True
+        }
+    }
+}
 
 try:
     from .local_settings import *
