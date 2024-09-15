@@ -35,7 +35,7 @@
                             >
                                 <option
                                 selected="true"
-                                value='-1'
+                                value="-1"
                                 disabled
                             >
                                 --- Select a Status ---
@@ -64,14 +64,14 @@
                                 class="form-control form-control-sm"
                                 id="item_location"
                                 name="item_location"
-                                hx-get='{% url "core:load_areas" %}'
+                                hx-get="{% url 'core:load_areas' %}"
                                 hx-trigger="change"
                                 hx-target="#areasDiv"
                                 hx-select="#area-select"
                             >
                                 <option
                                 selected="true"
-                                value='-1'
+                                value="-1"
                                 disabled
                             >
                                 --- Select a Location ---
@@ -112,7 +112,7 @@
                             >
                                 <option
                                 selected="true"
-                                value='-1'
+                                value="-1"
                                 disabled
                             >
                                 --- Select a Manufacturer ---
@@ -135,7 +135,7 @@
                                 placeholder="Enter Model #"
                             />
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <label for="serial_no">Serial #</label>
                             <input
                                 type="text"
@@ -145,7 +145,11 @@
                                 placeholder="Optional"
                             />
                         </div>
-                        <div class="col-sm-2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
                             <label for="qty">Qty</label>
                             <input
                                 type="number"
@@ -156,7 +160,7 @@
                                 name="qty"
                             />
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <label for="total_cost">Total Cost</label>
                             <input
                                 type="number"
@@ -166,6 +170,19 @@
                                 id="total_cost"
                                 required="true"
                                 name="total_cost"
+                            />
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="cost_per_item">Cost/Item</label>
+                            <input
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                class="form-control form-control-sm"
+                                id="cost_per_item"
+                                required="true"
+                                name="cost_per_item"
+                                readonly="true"
                             />
                         </div>
                     </div>
@@ -182,7 +199,7 @@
                             >
                                 <option
                                 selected="true"
-                                value='-1'
+                                value="-1"
                                 disabled
                             >
                                 --- Select an Assignee ---
@@ -204,7 +221,7 @@
                             >
                                 <option
                                 selected="true"
-                                value='-1'
+                                value="-1"
                                 disabled
                             >
                                 --- Select an Approver ---
