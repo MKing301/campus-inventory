@@ -99,3 +99,7 @@ env/
 notes.txt
 campusinventorydb.json
 maintenance_mode_state.txt
+config/
+nohup.out
+proj/nohup.out
+static/images/family_life_floor_plan.png
