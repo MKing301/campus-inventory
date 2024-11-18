@@ -241,7 +241,7 @@ def inventory(request):
         'inserted_date',
         'modified_by',
         'modified_date'
-    )
+    ).order_by('-purchase_date')
 
     return render(request=request,
                   template_name="core/inventory.html",
