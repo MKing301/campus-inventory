@@ -237,7 +237,8 @@ def inventory(request):
         'approved_date',
         'purchased_from',
         'purchase_date',
-        'inserted_by',
+        'inserted_by__first_name',
+        'inserted_by__last_name',
         'inserted_date',
         'modified_by',
         'modified_date'
